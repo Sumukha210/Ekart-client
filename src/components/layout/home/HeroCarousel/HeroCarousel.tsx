@@ -47,7 +47,7 @@ const HeroCarousel = () => {
 
               <Link
                 href={`/shop?category=${category}`}
-                className="bg-yellow-300 px-8 py-2 mt-4 inline-block rounded-full font-semibold border ">
+                className="bg-yellow-300 px-12 py-2 mt-4 inline-block rounded-full font-semibold border ">
                 Shop Now
               </Link>
             </div>
