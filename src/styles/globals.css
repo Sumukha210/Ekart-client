@@ -5,3 +5,9 @@
 :root {
   --primary-color: #ff7d1b;
 }
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
