@@ -1,4 +1,4 @@
-import { Montserrat, Playfair_Display_SC } from "next/font/google";
+import { Montserrat, Playfair_Display } from "next/font/google";
 
 export const primaryFont = Montserrat({
   subsets: ["latin"],
@@ -6,7 +6,7 @@ export const primaryFont = Montserrat({
   weight: ["400", "500", "600", "700"],
 });
 
-export const secondaryFont = Playfair_Display_SC({
+export const secondaryFont = Playfair_Display({
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "700"],
