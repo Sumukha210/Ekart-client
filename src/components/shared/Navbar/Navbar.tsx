@@ -21,16 +21,16 @@ export const navLinks: INavLinks[] = [
 const Navbar = () => {
   return (
     <nav>
-      <div className="flex items-center justify-between w-11/12 mx-auto py-2">
+      <div className="flex items-center justify-between w-11/12 mx-auto py-3">
         <div>
           <Link
             href="/"
-            className={`${secondaryFont.className} text-3xl font-semibold `}>
-            Ekart
+            className={`${secondaryFont.className} text-xl  tracking-widest`}>
+            Ekart.
           </Link>
         </div>
 
-        <ul className="flex items-center gap-6 font-medium text-sm">
+        <ul className="flex items-center gap-6 font-semibold text-sm">
           {navLinks.map(({ label, href }) => (
             <li key={label}>
               <Link href={href}>{label}</Link>
@@ -45,16 +45,16 @@ const Navbar = () => {
               className="border border-gray-400 rounded-full pl-8 text-sm"
               placeholder="Search product"
             />
-            <AiOutlineSearch className="icon h-5 w-5" />
+            <AiOutlineSearch className="icon h-4 w-4" />
           </SearchBar>
 
           <div className="relative">
-            <AiOutlineShopping className="h-5 w-5 text-gray-500" />
+            <AiOutlineShopping className="h-5 cursor-pointer w-5 text-gray-500" />
             <span className="bg-red-500 rounded-full h-[6px] w-[6px] absolute -top-[2px] -right-1"></span>
           </div>
 
           <div>
-            <AiOutlineUser className="h-5 w-5 text-gray-500" />
+            <AiOutlineUser className="h-5 w-5 text-gray-500 cursor-pointer" />
           </div>
         </div>
       </div>
