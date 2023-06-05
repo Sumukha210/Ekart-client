@@ -1,4 +1,5 @@
 import { secondaryFont } from "@/lib/fonts";
+import SectionContainer from "@/shared/SectionContainer";
 import Link from "next/link";
 import ScrollContainer from "react-indiana-drag-scroll";
 
@@ -26,13 +27,13 @@ const categories = [
 
 const Categories = () => {
   return (
-    <div className="mt-20  mx-10">
+    <SectionContainer>
       <ScrollContainer className="flex items-center gap-6 overflow-x-auto">
         {categories.length
           ? categories.map((category) => (
               <div
                 key={category}
-                className="border border-gray-400 rounded-full min-w-[140px] text-center py-2 my-4">
+                className="border border-gray-400 rounded-full min-w-[140px] text-center py-2 ">
                 <Link
                   href={`/shop?category=${category}`}
                   className={`${secondaryFont.className} inline-block text-gray-700 tracking-wide font-semibold capitalize text-lg`}>
@@ -42,7 +43,7 @@ const Categories = () => {
             ))
           : null}
       </ScrollContainer>
-    </div>
+    </SectionContainer>
   );
 };
 

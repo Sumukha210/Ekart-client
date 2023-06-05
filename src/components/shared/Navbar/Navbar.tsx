@@ -1,11 +1,10 @@
 import { secondaryFont } from "@/lib/fonts";
-import Link from "next/link";
 import {
   AiOutlineSearch,
   AiOutlineShopping,
   AiOutlineUser,
 } from "react-icons/ai";
-import { SearchBar } from "./styles";
+import { Logo, NavLink, SearchBar } from "./styles";
 
 interface INavLinks {
   label: string;
@@ -23,17 +22,21 @@ const Navbar = () => {
     <nav>
       <div className="flex items-center justify-between w-11/12 mx-auto py-3">
         <div>
-          <Link
+          <Logo
             href="/"
-            className={`${secondaryFont.className} text-xl  tracking-widest`}>
+            className={`${secondaryFont.className} relative text-xl font-semibold tracking-widest after:bg-lime-400`}>
             Ekart.
-          </Link>
+          </Logo>
         </div>
 
-        <ul className="flex items-center gap-6 font-semibold text-sm">
+        <ul className="flex items-center gap-8 font-semibold text-sm">
           {navLinks.map(({ label, href }) => (
             <li key={label}>
-              <Link href={href}>{label}</Link>
+              <NavLink
+                className="after:bg-lime-400 relative text-gray-600 hover:text-black"
+                href={href}>
+                {label}
+              </NavLink>
             </li>
           ))}
         </ul>
@@ -42,7 +45,7 @@ const Navbar = () => {
           <SearchBar className="relative h-8">
             <input
               type="text"
-              className="border border-gray-400 rounded-full pl-8 text-sm"
+              className="border border-zinc-400 rounded-full pl-8 text-sm"
               placeholder="Search product"
             />
             <AiOutlineSearch className="icon h-4 w-4" />
