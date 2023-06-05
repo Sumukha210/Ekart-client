@@ -9,5 +9,5 @@ export const primaryFont = Montserrat({
 export const secondaryFont = Playfair_Display({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "700"],
+  weight: ["400", "500", "600", "700"],
 });
