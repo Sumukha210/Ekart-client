@@ -30,11 +30,11 @@ const ProductCard: React.FC<ProductCardprops> = ({
         </figure>
 
         <div className="mb-10 p-4">
-          <p className="text-xs tracking-wider text-gray-400 font-bold uppercase">
+          <p className="text-[10px] tracking-wider text-gray-400 font-bold uppercase">
             {category}
           </p>
           <h3
-            className={`${secondaryFont.className} text-lg tracking-wide font-semibold text-gray-600 my-1`}>
+            className={`${secondaryFont.className} text-lg tracking-wider font-semibold text-gray-600 my-1`}>
             {title}
           </h3>
           <div className="flex items-center justify-between ">
