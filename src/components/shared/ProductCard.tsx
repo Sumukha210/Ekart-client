@@ -34,7 +34,7 @@ const ProductCard: React.FC<ProductCardprops> = ({
             {category}
           </p>
           <h3
-            className={`${secondaryFont.className} text-lg tracking-wider font-semibold text-gray-600 my-1`}>
+            className={`${secondaryFont.className} text-xl sm:text-lg tracking-wider font-semibold text-gray-600 my-1`}>
             {title}
           </h3>
           <div className="flex items-center justify-between ">
@@ -42,10 +42,14 @@ const ProductCard: React.FC<ProductCardprops> = ({
               <span>
                 <BsCurrencyRupee />
               </span>
+
               <span className="text-lg font-semibold text-gray-700">
                 {Number(price - price / discountPercentage).toFixed()} /
               </span>
-              <span className="text-xs ml-1"> {price}</span>
+              <span className="text-xs ml-1 items-end line-through">
+                {" "}
+                {price}
+              </span>
             </div>
 
             <div className="flex items-center">

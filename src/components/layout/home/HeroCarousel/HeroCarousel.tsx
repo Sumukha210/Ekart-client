@@ -47,7 +47,7 @@ const HeroCarousel = () => {
               <div className="absolute bg-purple-300 h-32 w-32 opacity-70 rounded-full bottom-2/3 left-3/4 z-10"></div>
 
               <h1
-                className={`${secondaryFont.className} text-xl font-medium  tracking-wide !leading-[1.25] sm:text-4xl md:text-5xl `}>
+                className={`${secondaryFont.className} text-xl font-medium  tracking-wide leading-9 sm:!leading-[1.25] sm:text-4xl md:text-5xl relative z-20`}>
                 {title}
               </h1>
 

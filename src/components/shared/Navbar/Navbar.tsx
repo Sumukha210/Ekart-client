@@ -42,10 +42,10 @@ const Navbar = () => {
         </ul>
 
         <div className="flex gap-5 items-center">
-          <SearchBar className="relative h-8">
+          <SearchBar className="relative h-9 bg-gray-200 overflow-hidden rounded-lg w-64">
             <input
               type="text"
-              className="border border-zinc-400 rounded-full pl-8 text-sm"
+              className="pl-8 text-sm bg-transparent w-full rounded-lg"
               placeholder="Search product"
             />
             <AiOutlineSearch className="icon h-4 w-4" />
