@@ -1,5 +1,5 @@
+import BagsImg from "@/assets/bags.jpg";
 import JacketImg from "@/assets/jacket.jpg";
-import SunglassImg from "@/assets/sunglass-blue.jpg";
 import WatchImg from "@/assets/watch.jpg";
 import { StaticImageData } from "next/image";
 import styled from "styled-components";
@@ -14,18 +14,18 @@ export const data: Data[] = [
   {
     title:
       "Timeless Classics: Discover Wardrobe Staples that Never Go Out of Style",
-    category: "clothing",
+    category: "mens-shirts",
     image: JacketImg,
   },
   {
     title:
-      "Urban Sophistication: Discover our Modern and Edgy Sunglass Collection",
-    category: "sunglass",
-    image: SunglassImg,
+      "Eternal Sophistication: Unveiling Timeless Bags for Effortless Style",
+    category: "womens-bags",
+    image: BagsImg,
   },
   {
     title: "Embrace Minimalism: Discover our Sleek and Modern Watches",
-    category: "watches",
+    category: "mens-watches",
     image: WatchImg,
   },
 ];
