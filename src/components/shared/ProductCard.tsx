@@ -1,5 +1,6 @@
 import { secondaryFont } from "@/lib/fonts";
 import { IProduct } from "@/lib/types";
+import { calculateTotalPrice } from "@/lib/utils";
 import { addToCart, removeFromCart } from "@/redux/slices/cartSlice";
 import { RootState } from "@/redux/store";
 import { default as NextImage } from "next/image";
@@ -24,6 +25,8 @@ const ProductCard: React.FC<ProductCardprops> = ({
 
   const dispatch = useDispatch();
   const { products } = useSelector((state: RootState) => state.cart);
+
+  const totalPrice = calculateTotalPrice(price, discountPercentage);
 
   useEffect(() => {
     const findProduct = products.find((product) => product.id === id);
@@ -62,7 +65,7 @@ const ProductCard: React.FC<ProductCardprops> = ({
       <Link
         href={`/product/${id}`}
         key={id}
-        className="bg-gray-100 rounded-2xl overflow-hidden relative">
+        className="bg-white border border-borderColor rounded-2xl overflow-hidden relative">
         <figure className="h-60  relative">
           <NextImage
             src={`http://localhost:5000/product_${id}/image_1.jpg`}
@@ -86,7 +89,7 @@ const ProductCard: React.FC<ProductCardprops> = ({
               </span>
 
               <span className="text-lg font-semibold text-gray-700">
-                {Number(price - price / discountPercentage).toFixed()} /
+                {Number(totalPrice).toFixed()} /
               </span>
               <span className="text-xs ml-1 items-end line-through">
                 {price}

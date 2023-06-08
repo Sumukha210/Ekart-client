@@ -31,7 +31,7 @@ const HeroCarousel = () => {
     "p-3 rounded-full border-2 cursor-pointer inline-block absolute top-2/4 -translate-y-2/4 hover:bg-yellow-300 transition focus:bg-yellow-300";
 
   return (
-    <div className="relative mt-10">
+    <div className="relative mt-10 bg-white">
       <div className="mx-8 sm:w-9/12 sm:mx-auto">
         {data.map(({ title, category, image }, index) => (
           <Slide

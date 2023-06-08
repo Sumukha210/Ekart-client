@@ -1,9 +1,10 @@
 import { secondaryFont } from "@/lib/fonts";
 import { RootState } from "@/redux/store";
 import Link from "next/link";
-import { AiOutlineSearch, AiOutlineShopping } from "react-icons/ai";
+import { AiOutlineShopping } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { Logo, NavLink, SearchBar } from "./styles";
+import AutoComplete from "./AutoComplete";
+import { Logo, NavLink } from "./styles";
 
 interface INavLinks {
   label: string;
@@ -20,7 +21,7 @@ const Navbar = () => {
   const { products } = useSelector((state: RootState) => state.cart);
 
   return (
-    <nav className="fixed top-0 left-0 w-screen bg-white z-30">
+    <nav className="fixed top-0 left-0 w-screen bg-white border-b border-b-borderColor z-30">
       <div className="flex items-center justify-between w-11/12 mx-auto py-3">
         <div>
           <Logo
@@ -52,14 +53,7 @@ const Navbar = () => {
             ) : null}
           </div>
 
-          <SearchBar className="relative h-9 bg-gray-200 overflow-hidden rounded-lg w-64">
-            <input
-              type="text"
-              className="pl-8 text-sm bg-transparent w-full rounded-lg"
-              placeholder="Search product"
-            />
-            <AiOutlineSearch className="icon h-4 w-4" />
-          </SearchBar>
+          <AutoComplete />
 
           <Link
             href="/login"

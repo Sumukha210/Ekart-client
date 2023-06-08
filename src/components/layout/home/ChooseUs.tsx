@@ -48,8 +48,10 @@ const ChooseUs = () => {
         {content.map(({ title, description, Icon }, index) => (
           <Section
             key={index}
-            className="bg-zinc-100 p-4 rounded-2xl hover:bg-lime-300 transition">
-            <Icon className="mb-3 h-12 w-12 transition" />
+            className="bg-white border border-borderColor p-4 rounded-2xl hover:bg-lime-300 transition text-center">
+            <div className="bg-lime-400 mb-2  h-[70px] w-[70px] p-5 rounded-full mx-auto flex items-center justify-center">
+              <Icon className="h-full w-full" />
+            </div>
             <h4 className="text-xl sm:text-lg font-semibold mb-2">{title}</h4>
             <p className="text-gray-600 leading-7">{description}</p>
           </Section>
