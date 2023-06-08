@@ -71,7 +71,7 @@ const AutoComplete = () => {
                 <li key={data._id} className="mb-3 text-sm">
                   <Link
                     href={`/products/${data._id}/${data.title}?category=${data.category}&brand=${data.brand}`}
-                    className="block leading-7"
+                    className="block leading-6"
                     dangerouslySetInnerHTML={{
                       __html: `${data.title} from ${data.brand} brand <span class="text-blue-500 font-semibold block">in ${data.category}</span>`,
                     }}></Link>
