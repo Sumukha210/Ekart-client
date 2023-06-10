@@ -6,12 +6,7 @@ interface PageHeadingprops {
 }
 
 const PageHeading: React.FC<PageHeadingprops> = ({ text }) => {
-  return (
-    <Heading
-      className={`${secondaryFont.className} relative text-4xl font-medium after:bg-lime-400 inline-block mb-12`}>
-      {text}
-    </Heading>
-  );
+  return <Heading className={`${secondaryFont.className} relative text-4xl font-medium after:bg-lime-400 inline-block mb-12`}>{text}</Heading>;
 };
 
 export default PageHeading;

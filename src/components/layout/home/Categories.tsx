@@ -14,9 +14,7 @@ const Categories = () => {
       <ScrollContainer className="flex items-center gap-6 overflow-x-auto">
         {!isError && data?.result.length
           ? data.result.map((category: string) => (
-              <div
-                key={category}
-                className="border border-gray-400 rounded-full min-w-[190px] text-center  py-2 ">
+              <div key={category} className="border border-gray-400 rounded-full min-w-[190px] text-center  py-2 ">
                 <Link
                   href={`/shop?category=${category}`}
                   className={`${secondaryFont.className} inline-block text-gray-700 tracking-wide font-semibold capitalize text-lg`}>

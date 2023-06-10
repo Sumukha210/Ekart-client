@@ -2,9 +2,9 @@ import Spinner from "@/elements/Spinner";
 import { IProduct } from "@/lib/types";
 import ProductCard from "@/shared/ProductCard";
 import SectionContainer from "@/shared/SectionContainer";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
 
-const useFetchProducts = (skip: number) => {
+const useFetchProducts = (skip: number, setSkip: Dispatch<SetStateAction<number>>) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -16,9 +16,7 @@ const useFetchProducts = (skip: number) => {
 
     try {
       setIsLoading(true);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/products?limit=${limit}&skip=${skip}`
-      );
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products?limit=${limit}&skip=${skip}`);
       const data = await response.json();
       if (data.status === "success" && data.result.length) {
         setProducts((prev) => [...prev, ...data.result]);
@@ -38,17 +36,8 @@ const useFetchProducts = (skip: number) => {
     fetchData();
   }, [skip]);
 
-  return { isLoading, isError, products, hasMore, limit };
-};
-
-const Products = () => {
-  const [skip, setSkip] = useState(0);
-
-  const { limit, isError, isLoading, products, hasMore } =
-    useFetchProducts(skip);
-
   const observer: any = useRef(null);
-  const lastBookElementRef = useCallback(
+  const lastProductElementRef = useCallback(
     (node: any) => {
       if (isLoading) return;
       if (observer.current) observer.current.disconnect();
@@ -65,6 +54,21 @@ const Products = () => {
     [isLoading, hasMore]
   );
 
+  return {
+    isLoading,
+    isError,
+    products,
+    hasMore,
+    limit,
+    lastProductElementRef,
+  };
+};
+
+const Products = () => {
+  const [skip, setSkip] = useState(0);
+
+  const { isError, isLoading, products, lastProductElementRef } = useFetchProducts(skip, setSkip);
+
   return (
     <SectionContainer>
       <div className="grid grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-6">
@@ -72,7 +76,7 @@ const Products = () => {
           ? products.map((product, index) => {
               if (products.length === index + 1) {
                 return (
-                  <div key={product._id} ref={lastBookElementRef}>
+                  <div key={product._id} ref={lastProductElementRef}>
                     <ProductCard {...product} />
                   </div>
                 );

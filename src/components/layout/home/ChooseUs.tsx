@@ -23,20 +23,17 @@ const content: IContent[] = [
   {
     Icon: IoPricetagsSharp,
     title: "Competitive Prices",
-    description:
-      "Enjoy competitive prices on high-quality items. We offer great value, ensuring you save while experiencing the best shopping experience.",
+    description: "Enjoy competitive prices on high-quality items. We offer great value, ensuring you save while experiencing the best shopping experience.",
   },
   {
     Icon: TbTruckDelivery,
     title: "Fast and Reliable Shipping",
-    description:
-      "Experience speedy and reliable shipping services. We prioritize prompt delivery to ensure your satisfaction every step of the way.",
+    description: "Experience speedy and reliable shipping services. We prioritize prompt delivery to ensure your satisfaction every step of the way.",
   },
   {
     Icon: RiCustomerService2Line,
     title: "Exceptional Customer Service",
-    description:
-      "Our dedicated customer service team is always ready to assist you.",
+    description: "Our dedicated customer service team is always ready to assist you.",
   },
 ];
 
@@ -46,9 +43,7 @@ const ChooseUs = () => {
       <SubHeading text="Why to choose us" />
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {content.map(({ title, description, Icon }, index) => (
-          <Section
-            key={index}
-            className="bg-white border border-borderColor p-4 rounded-2xl hover:bg-lime-300 transition text-center">
+          <Section key={index} className="bg-white border border-borderColor p-4 rounded-2xl hover:bg-lime-300 transition text-center">
             <div className="bg-lime-400 mb-2  h-[70px] w-[70px] p-5 rounded-full mx-auto flex items-center justify-center">
               <Icon className="h-full w-full" />
             </div>

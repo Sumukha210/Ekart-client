@@ -20,12 +20,9 @@ const AutoComplete = () => {
   const fetchData = async (searchInput: string) => {
     try {
       setIsLoading(true);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL!}/products/${searchInput}`
-      );
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL!}/products/${searchInput}`);
       const data = await response.json();
-      if (data.status === "success" && data.result.length)
-        setProductData(data.result);
+      if (data.status === "success" && data.result.length) setProductData(data.result);
     } catch (error) {
     } finally {
       setIsLoading(false);
@@ -59,13 +56,7 @@ const AutoComplete = () => {
   return (
     <div className="relative w-[400px]">
       <SearchBar className="relative h-9 bg-borderColor overflow-hidden rounded-lg w-full">
-        <input
-          value={searchInput}
-          onChange={handleInput}
-          type="text"
-          className="pl-9 text-sm bg-transparent w-full rounded-lg"
-          placeholder="Search product"
-        />
+        <input value={searchInput} onChange={handleInput} type="text" className="pl-9 text-sm bg-transparent w-full rounded-lg" placeholder="Search product" />
         <AiOutlineSearch className="icon h-4 w-4" />
       </SearchBar>
 
@@ -85,13 +76,7 @@ const AutoComplete = () => {
                 </li>
               ))
             ) : (
-              <li>
-                {isLoading ? (
-                  <span className="text-center">Fetching...............</span>
-                ) : (
-                  <span>There is not data</span>
-                )}
-              </li>
+              <li>{isLoading ? <span className="text-center">Fetching...............</span> : <span>There is not data</span>}</li>
             )}
           </ul>
         </div>

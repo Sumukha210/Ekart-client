@@ -8,12 +8,8 @@ interface FeaturedTopRatedProductprops {
   params: string;
 }
 
-const FeaturedTopRatedProduct: React.FC<FeaturedTopRatedProductprops> = ({
-  heading,
-  params,
-}) => {
-  const { data, isLoading, isError } =
-    useGetFeaturedTopRatedProductsQuery(params);
+const FeaturedTopRatedProduct: React.FC<FeaturedTopRatedProductprops> = ({ heading, params }) => {
+  const { data, isLoading, isError } = useGetFeaturedTopRatedProductsQuery(params);
 
   if (isError) return <h5>Failed to fetch {heading}</h5>;
   if (isLoading) return <>Loading....</>;

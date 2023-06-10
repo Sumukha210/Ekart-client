@@ -12,15 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 interface ProductCardprops extends IProduct {}
 
-const ProductCard: React.FC<ProductCardprops> = ({
-  title,
-  category,
-  price,
-  discountPercentage,
-  id,
-  rating,
-  ...rest
-}) => {
+const ProductCard: React.FC<ProductCardprops> = ({ title, category, price, discountPercentage, id, rating, ...rest }) => {
   const [isAddedToCart, setIsAddedToCart] = useState(false);
 
   const dispatch = useDispatch();
@@ -30,71 +22,42 @@ const ProductCard: React.FC<ProductCardprops> = ({
 
   useEffect(() => {
     const findProduct = products.find((product) => product.id === id);
-    if (findProduct) {
-      setIsAddedToCart(true);
-    }
+    if (findProduct) setIsAddedToCart(true);
   }, []);
 
-  const handleCart = (
-    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
-  ) => {
+  const handleCart = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
     e.preventDefault();
 
     if (isAddedToCart) {
       dispatch(removeFromCart({ id }));
       setIsAddedToCart(false);
     } else {
-      dispatch(
-        addToCart({
-          title,
-          category,
-          price,
-          discountPercentage,
-          id,
-          rating,
-          numberOfItemsSelected: 1,
-          ...rest,
-        })
-      );
+      dispatch(addToCart({ title, category, price, discountPercentage, id, rating, numberOfItemsSelected: 1, ...rest }));
       setIsAddedToCart(true);
     }
   };
 
   return (
     <>
-      <Link
-        href={`/product/${id}`}
-        key={id}
-        className="bg-white border border-borderColor rounded-2xl overflow-hidden block relative">
+      <Link href={`/product/${id}`} key={id} className="bg-white border border-borderColor rounded-2xl overflow-hidden block relative">
         <figure className="h-60  relative">
-          <NextImage
-            sizes="(max-width: 576px) 90vw, (max-width: 992px) 35vw, 25vw"
-            src={`http://localhost:5000/product_${id}/image_1.jpg`}
-            fill
-            alt={title}
-          />
+          <NextImage sizes="(max-width: 576px) 90vw, (max-width: 992px) 35vw, 25vw" src={`http://localhost:5000/product_${id}/image_1.jpg`} fill alt={title} />
         </figure>
 
         <div className="mb-10 p-4">
-          <p className="text-[10px] tracking-wider text-gray-400 font-bold uppercase">
-            {category}
-          </p>
-          <h3
-            className={`${secondaryFont.className} whitespace-nowrap overflow-hidden text-ellipsis text-xl sm:text-lg tracking-wider font-semibold text-gray-600 my-1`}>
+          <p className="text-[10px] tracking-wider text-gray-400 font-bold uppercase">{category}</p>
+          <h3 className={`${secondaryFont.className} whitespace-nowrap overflow-hidden text-ellipsis text-xl sm:text-lg tracking-wider font-semibold text-gray-600 my-1`}>
             {title}
           </h3>
+
           <div className="flex items-center justify-between ">
             <div className="flex items-center pt-2">
               <span>
                 <BsCurrencyRupee />
               </span>
 
-              <span className="text-lg font-semibold text-gray-700">
-                {Number(totalPrice).toFixed()} /
-              </span>
-              <span className="text-xs ml-1 items-end line-through">
-                {price}
-              </span>
+              <span className="text-lg font-semibold text-gray-700">{Number(totalPrice).toFixed()} /</span>
+              <span className="text-xs ml-1 items-end line-through">{price}</span>
             </div>
 
             <div className="flex items-center">
@@ -106,9 +69,7 @@ const ProductCard: React.FC<ProductCardprops> = ({
 
         <button
           onClick={handleCart}
-          className={`mt-2 block ${
-            isAddedToCart ? "bg-red-400" : "bg-lime-400"
-          } text-xs font-bold w-full py-3 uppercase tracking-wide absolute bottom-0 left-0`}>
+          className={`mt-2 block ${isAddedToCart ? "bg-red-400" : "bg-lime-400"} text-xs font-bold w-full py-3 uppercase tracking-wide absolute bottom-0 left-0`}>
           {isAddedToCart ? "Remove from" : "Add to"} cart
         </button>
       </Link>

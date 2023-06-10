@@ -12,19 +12,13 @@ const Home = () => {
       <ChooseUs />
 
       <SectionContainer>
-        <FeaturedTopRatedProduct
-          params="&featured=true"
-          heading="Featured Products"
-        />
+        <FeaturedTopRatedProduct params="&featured=true" heading="Featured Products" />
       </SectionContainer>
 
       <Categories />
 
       <SectionContainer>
-        <FeaturedTopRatedProduct
-          params="&topRated=1"
-          heading="Top Rated Products"
-        />
+        <FeaturedTopRatedProduct params="&topRated=1" heading="Top Rated Products" />
       </SectionContainer>
     </div>
   );

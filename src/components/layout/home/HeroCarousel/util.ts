@@ -12,14 +12,12 @@ interface Data {
 
 export const data: Data[] = [
   {
-    title:
-      "Timeless Classics: Discover Wardrobe Staples that Never Go Out of Style",
+    title: "Timeless Classics: Discover Wardrobe Staples that Never Go Out of Style",
     category: "mens-shirts",
     image: JacketImg,
   },
   {
-    title:
-      "Eternal Sophistication: Unveiling Timeless Bags for Effortless Style",
+    title: "Eternal Sophistication: Unveiling Timeless Bags for Effortless Style",
     category: "womens-bags",
     image: BagsImg,
   },

@@ -11,14 +11,8 @@ import { useSelector } from "react-redux";
 const Cart = () => {
   const { products } = useSelector((state: RootState) => state.cart);
 
-  const totalPrice = products.reduce(
-    (acc, current) => acc + current.price * current.numberOfItemsSelected,
-    0
-  );
-  const totalDiscount = products.reduce(
-    (acc, current) => acc + current.discountPercentage,
-    0
-  );
+  const totalPrice = products.reduce((acc, current) => acc + current.price * current.numberOfItemsSelected, 0);
+  const totalDiscount = products.reduce((acc, current) => acc + current.discountPercentage, 0);
   const finalPrice = calculateTotalPrice(totalPrice, totalDiscount);
   const saveAmount = Number(totalPrice - finalPrice).toFixed(0);
 
@@ -35,13 +29,9 @@ const Cart = () => {
           <PageHeading text="My Cart" />
 
           {products.length ? (
-            products.map((product) => (
-              <CartItem key={product.id} {...product} />
-            ))
+            products.map((product) => <CartItem key={product.id} {...product} />)
           ) : (
-            <h3 className="text-lg font-semibold text-gray-400 tracking-wider">
-              No products are added in the cart
-            </h3>
+            <h3 className="text-lg font-semibold text-gray-400 tracking-wider">No products are added in the cart</h3>
           )}
         </div>
 
@@ -74,14 +64,12 @@ const Cart = () => {
                 <span>{Number(finalPrice).toFixed(0)} /-</span>
               </div>
 
-              <div className="col-span-12 text-green-600 font-semibold">
-                You will save Rs. {saveAmount}
-              </div>
+              <div className="col-span-12 text-green-600 font-semibold">You will save Rs. {saveAmount}</div>
             </div>
 
             <button
               disabled={!products.length}
-              className="mt-4 bg-lime-400 py-2 disabled:bg-lime-200 disabled:text-gray-400 cursor-not-allowed  block w-full font-semibold">
+              className="mt-4 bg-lime-400 py-2 disabled:bg-lime-200 disabled:text-gray-400 cursor-not-allowed block w-full font-semibold">
               Place Order
             </button>
           </div>
