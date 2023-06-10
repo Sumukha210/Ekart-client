@@ -1,76 +1,106 @@
 import Spinner from "@/elements/Spinner";
-import { IProduct } from "@/lib/types";
-import ProductCard from "@/shared/ProductCard";
-import SectionContainer from "@/shared/SectionContainer";
-import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
+import AllFilterMenu from "@/layout/products/AllFilterMenu";
+import { useFetchProducts } from "@/layout/products/useFetchProducts";
+import ProductCard from "@/shared/modules/ProductCard";
 
-const useFetchProducts = (skip: number, setSkip: Dispatch<SetStateAction<number>>) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [hasMore, setHasMore] = useState(false);
-  const limit = 20;
+import SectionContainer from "@/shared/modules/SectionContainer";
+import { useEffect, useState } from "react";
+import { BsFilter } from "react-icons/bs";
+import styled from "styled-components";
 
-  const fetchData = async () => {
-    console.log("fetch data");
+interface ISortBy {
+  label: string;
+  value: string;
+}
 
-    try {
-      setIsLoading(true);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products?limit=${limit}&skip=${skip}`);
-      const data = await response.json();
-      if (data.status === "success" && data.result.length) {
-        setProducts((prev) => [...prev, ...data.result]);
-        setIsLoading(false);
-        setHasMore(() => {
-          if (data.skip < data.total) return true;
-          return false;
-        });
-      }
-    } catch (error) {
-      setIsError(true);
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [skip]);
-
-  const observer: any = useRef(null);
-  const lastProductElementRef = useCallback(
-    (node: any) => {
-      if (isLoading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting && hasMore) {
-            setSkip((prev) => prev + limit);
-          }
-        },
-        { threshold: 0.75 }
-      );
-      if (node && observer?.current) observer.current.observe(node);
-    },
-    [isLoading, hasMore]
-  );
-
-  return {
-    isLoading,
-    isError,
-    products,
-    hasMore,
-    limit,
-    lastProductElementRef,
-  };
-};
+const sortBy: ISortBy[] = [
+  { label: "Popularity", value: "popular" },
+  { label: "Price -  Low to High", value: "priceLow" },
+  { label: "Price -  High to Low", value: "priceHigh" },
+  { label: "Newest First", value: "newest" },
+];
 
 const Products = () => {
   const [skip, setSkip] = useState(0);
-
+  const [isSideBarOpen, setIsSideBarOpen] = useState(true);
   const { isError, isLoading, products, lastProductElementRef } = useFetchProducts(skip, setSkip);
+  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
+  const [selectedBrand, setSelectedBrand] = useState<string[]>([]);
+  const [selectedRating, setSelectedRating] = useState<null | number>(null);
+
+  useEffect(() => {
+    if (isSideBarOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.height = "100vh";
+    } else {
+      document.body.style.overflow = "initial";
+      document.body.style.height = "initial";
+    }
+  }, [isSideBarOpen]);
+
+  const handleSelectCategory = (category: string, isSelected: boolean) => {
+    return () => {
+      if (!isSelected) {
+        setSelectedCategory((prev) => [...prev, category]);
+      } else {
+        const newCategories = [...selectedCategory].filter((categoryItem) => category != categoryItem);
+        setSelectedCategory(newCategories);
+      }
+    };
+  };
+
+  const handleSelectBrand = (brand: string, isSelected: boolean) => {
+    return () => {
+      if (!isSelected) {
+        setSelectedBrand((prev) => [...prev, brand]);
+      } else {
+        const newCategories = [...selectedBrand].filter((brandItem) => brand != brandItem);
+        setSelectedBrand(newCategories);
+      }
+    };
+  };
+
+  const handleSelectedRating = (rating: number) => setSelectedRating(rating);
+
+  const closeAllFilterMenu = () => setIsSideBarOpen(false);
 
   return (
     <SectionContainer>
+      <div className="my-10">
+        <div className="flex items-center justify-between gap-6 mb-4">
+          <div onClick={() => setIsSideBarOpen(true)} className="cursor-pointer flex items-center bg-gray-200 px-5 py-2 rounded-full">
+            <BsFilter className="h-5 w-5" />
+            <h4 className="text-sm font-semibold">Filters</h4>
+          </div>
+
+          <div className="text-sm ">
+            <label htmlFor="sortBy" className="font-semibold">
+              Sort By |
+            </label>
+            <Select id="sortBy" className="py-2 bg-gray-200 ml-2  px-5 rounded-full">
+              {sortBy.map(({ label, value }) => (
+                <option value={value} key={value} className="my-2  inline-block">
+                  {label}
+                </option>
+              ))}
+            </Select>
+          </div>
+        </div>
+        <hr className="border-gray-300"></hr>
+      </div>
+
+      <Overlay className={`fixed w-screen h-screen left-0 top-0 bg-black  z-40  ${isSideBarOpen ? "visible opacity-40" : "invisible opacity-0"}`}></Overlay>
+      <AllFilterMenu
+        handleSelectBrand={handleSelectBrand}
+        handleSelectCategory={handleSelectCategory}
+        isSideBarOpen={isSideBarOpen}
+        selectedBrand={selectedBrand}
+        selectedCategory={selectedCategory}
+        closeAllFilterMenu={closeAllFilterMenu}
+        selectedRating={selectedRating}
+        handleSelectedRating={handleSelectedRating}
+      />
+
       <div className="grid grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-6">
         {products.length
           ? products.map((product, index) => {
@@ -97,3 +127,9 @@ const Products = () => {
 };
 
 export default Products;
+
+const Overlay = styled.div`
+  transition: all 0.6s ease-in-out;
+`;
+
+const Select = styled.select``;
