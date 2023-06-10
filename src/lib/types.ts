@@ -14,3 +14,7 @@ export interface IProduct {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IProductItem extends IProduct {
+  numberOfItemsSelected: number;
+}
