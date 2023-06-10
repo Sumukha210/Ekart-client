@@ -1,31 +1,33 @@
 import styled, { keyframes } from "styled-components";
 
 interface Spinnerprops {
-  my?: number;
+  my?: string;
 }
 
-const Spinner: React.FC<Spinnerprops> = ({ my = 10 }) => {
+const Spinner: React.FC<Spinnerprops> = ({ my = "my-10" }) => {
   return (
-    <div className={`text-center my-${my}`}>
-      <Button disabled className="border-2 border-yellow-500" />
+    <div className={`text-center flex items-center justify-center ${my}`}>
+      <LoadingSpinner className="border-4 border-gray-200 border-t-lime-500" />
     </div>
   );
 };
 
 export default Spinner;
 
-const rotate = keyframes`
- to {
-    transform: scale(1.5);
-    opacity: 0;
- }
+const rotateAnimation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 `;
 
-const Button = styled.button`
-  height: 40px;
-  width: 40px;
-  background: black;
+const LoadingSpinner = styled.div`
+  /* border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db; */
   border-radius: 50%;
-  opacity: 1;
-  animation: ${rotate} 800ms linear infinite;
+  width: 40px;
+  height: 40px;
+  animation: ${rotateAnimation} 1s linear infinite;
 `;

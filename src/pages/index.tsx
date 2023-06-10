@@ -6,7 +6,7 @@ import SectionContainer from "@/shared/SectionContainer";
 
 const Home = () => {
   return (
-    <>
+    <div className="mt-20">
       <HeroCarousel />
 
       <ChooseUs />
@@ -26,7 +26,7 @@ const Home = () => {
           heading="Top Rated Products"
         />
       </SectionContainer>
-    </>
+    </div>
   );
 };
 export default Home;

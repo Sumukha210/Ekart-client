@@ -12,7 +12,7 @@ interface INavLinks {
 }
 
 export const navLinks: INavLinks[] = [
-  { label: "Store", href: "/store" },
+  { label: "Store", href: "/products" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
