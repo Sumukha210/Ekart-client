@@ -65,9 +65,10 @@ const ProductCard: React.FC<ProductCardprops> = ({
       <Link
         href={`/product/${id}`}
         key={id}
-        className="bg-white border border-borderColor rounded-2xl overflow-hidden relative">
+        className="bg-white border border-borderColor rounded-2xl overflow-hidden block relative">
         <figure className="h-60  relative">
           <NextImage
+            sizes="(max-width: 576px) 90vw, (max-width: 992px) 35vw, 25vw"
             src={`http://localhost:5000/product_${id}/image_1.jpg`}
             fill
             alt={title}
@@ -79,7 +80,7 @@ const ProductCard: React.FC<ProductCardprops> = ({
             {category}
           </p>
           <h3
-            className={`${secondaryFont.className} text-xl sm:text-lg tracking-wider font-semibold text-gray-600 my-1`}>
+            className={`${secondaryFont.className} whitespace-nowrap overflow-hidden text-ellipsis text-xl sm:text-lg tracking-wider font-semibold text-gray-600 my-1`}>
             {title}
           </h3>
           <div className="flex items-center justify-between ">
