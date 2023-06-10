@@ -50,6 +50,12 @@ const AutoComplete = () => {
     setSearchInput(e.target.value);
   };
 
+  const handleCloseMenu = () => {
+    setSearchInput("");
+    setProductData([]);
+    setIsLoading(false);
+  };
+
   return (
     <div className="relative w-[400px]">
       <SearchBar className="relative h-9 bg-borderColor overflow-hidden rounded-lg w-full">
@@ -70,7 +76,8 @@ const AutoComplete = () => {
               productData.map((data) => (
                 <li key={data._id} className="mb-3 text-sm">
                   <Link
-                    href={`/products/${data._id}/${data.title}?category=${data.category}&brand=${data.brand}`}
+                    href={`/products?productname=${data.title}&id=${data._id}&category=${data.category}&brand=${data.brand}`}
+                    onClick={handleCloseMenu}
                     className="block leading-6"
                     dangerouslySetInnerHTML={{
                       __html: `${data.title} from ${data.brand} brand <span class="text-blue-500 font-semibold block">in ${data.category}</span>`,
