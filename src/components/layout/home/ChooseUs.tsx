@@ -1,5 +1,5 @@
 import SubHeading from "@/elements/SubHeading";
-import SectionContainer from "@/shared/SectionContainer";
+import SectionContainer from "@/shared/modules/SectionContainer";
 import { IconType } from "react-icons";
 import { BsCart4 } from "react-icons/bs";
 import { IoPricetagsSharp } from "react-icons/io5";

@@ -1,7 +1,7 @@
 import SubHeading from "@/elements/SubHeading";
 import { secondaryFont } from "@/lib/fonts";
 import { useGetCategoriesQuery } from "@/redux/api/productApi";
-import SectionContainer from "@/shared/SectionContainer";
+import SectionContainer from "@/shared/modules/SectionContainer";
 import Link from "next/link";
 import ScrollContainer from "react-indiana-drag-scroll";
 

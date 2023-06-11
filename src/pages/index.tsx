@@ -2,7 +2,7 @@ import Categories from "@/layout/home/Categories";
 import ChooseUs from "@/layout/home/ChooseUs";
 import FeaturedTopRatedProduct from "@/layout/home/FeaturedTopRatedProduct";
 import HeroCarousel from "@/layout/home/HeroCarousel";
-import SectionContainer from "@/shared/SectionContainer";
+import SectionContainer from "@/shared/modules/SectionContainer";
 
 const Home = () => {
   return (

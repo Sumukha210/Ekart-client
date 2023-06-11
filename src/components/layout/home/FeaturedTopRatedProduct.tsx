@@ -1,7 +1,7 @@
 import SubHeading from "@/elements/SubHeading";
 import { IProduct } from "@/lib/types";
 import { useGetFeaturedTopRatedProductsQuery } from "@/redux/api/productApi";
-import ProductCard from "@/shared/ProductCard";
+import ProductCard from "@/shared/modules/ProductCard";
 
 interface FeaturedTopRatedProductprops {
   heading: string;
