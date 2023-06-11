@@ -2,7 +2,7 @@ import PageHeading from "@/elements/PageHeading";
 import CartItem from "@/layout/cart/CartItem";
 import { calculateTotalPrice } from "@/lib/utils";
 import { RootState } from "@/redux/store";
-import SectionContainer from "@/shared/SectionContainer";
+import SectionContainer from "@/shared/modules/SectionContainer";
 import { useEffect } from "react";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { BsCurrencyRupee } from "react-icons/bs";
