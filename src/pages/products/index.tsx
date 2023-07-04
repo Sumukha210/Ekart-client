@@ -1,34 +1,25 @@
 import Spinner from "@/elements/Spinner";
 import AllFilterMenu from "@/layout/products/AllFilterMenu";
+import FilterSortMenu from "@/layout/products/FilterSortMenu";
 import { filterReducer, initialFilterState } from "@/layout/products/FiltersReducer";
 import { IProduct } from "@/lib/types";
 import ProductCard from "@/shared/modules/ProductCard";
 import SectionContainer from "@/shared/modules/SectionContainer";
 import { useEffect, useReducer, useState } from "react";
-import { BsFilter } from "react-icons/bs";
 import InfiniteScroll from "react-infinite-scroll-component";
 import styled from "styled-components";
-
-interface ISortBy {
-  label: string;
-  value: string;
-}
-
-const sortBy: ISortBy[] = [
-  { label: "Popularity", value: "popularity" },
-  { label: "Price -  Low to High", value: "priceLowToHigh" },
-  { label: "Price -  High to Low", value: "priceHighToLow" },
-  { label: "Newest First", value: "newest" },
-];
 
 const Products = () => {
   const [skip, setSkip] = useState(0);
   const [products, setProducts] = useState<IProduct[]>([]);
   const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const [state, dispatch] = useReducer(filterReducer, initialFilterState);
+  const { isSideBarOpen } = state;
+
+  const closeAllFilterMenu = () => {
+    dispatch({ type: "TOGGLE_SIDEBAR" });
+  };
 
   const fetchProducts = async () => {
     try {
@@ -50,13 +41,6 @@ const Products = () => {
     }
   };
 
-  const [state, dispatch] = useReducer(filterReducer, initialFilterState);
-  const { isSideBarOpen } = state;
-
-  const closeAllFilterMenu = () => {
-    dispatch({ type: "TOGGLE_SIDEBAR" });
-  };
-
   useEffect(() => {
     if (isSideBarOpen) {
       document.body.style.overflow = "hidden";
@@ -67,36 +51,15 @@ const Products = () => {
     }
   }, [isSideBarOpen]);
 
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
     <SectionContainer>
-      <div className="my-10">
-        <div className="flex items-center justify-between gap-6 mb-4">
-          <div onClick={() => dispatch({ type: "TOGGLE_SIDEBAR" })} className="cursor-pointer flex items-center bg-gray-200 px-5 py-2 rounded-full">
-            <BsFilter className="h-5 w-5" />
-            <h4 className="text-sm font-semibold">Filters</h4>
-          </div>
-
-          <div className="text-sm ">
-            <label htmlFor="sortBy" className="font-semibold">
-              Sort By |
-            </label>
-            <Select
-              id="sortBy"
-              onChange={(e) => dispatch({ type: "SET_SORTBY", sortBy: e.target.value })}
-              className="py-2 bg-gray-200 ml-2  px-5 rounded-full font-medium">
-              {sortBy.map(({ label, value }) => (
-                <option value={value} key={value} className="my-2  inline-block">
-                  {label}
-                </option>
-              ))}
-            </Select>
-          </div>
-        </div>
-        <hr className="border-gray-300"></hr>
-      </div>
-
       <Overlay className={`fixed w-screen h-screen left-0 top-0 bg-black  z-40  ${isSideBarOpen ? "visible opacity-40" : "invisible opacity-0"}`}></Overlay>
       <AllFilterMenu dispatch={dispatch} closeAllFilterMenu={closeAllFilterMenu} state={state} />
+      <FilterSortMenu />
 
       <InfiniteScroll
         dataLength={products.length}
@@ -121,5 +84,3 @@ export default Products;
 const Overlay = styled.div`
   transition: all 0.6s ease-in-out;
 `;
-
-const Select = styled.select``;
