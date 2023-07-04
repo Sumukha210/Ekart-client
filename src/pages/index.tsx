@@ -18,7 +18,7 @@ const Home = () => {
       <Categories />
 
       <SectionContainer>
-        <FeaturedTopRatedProduct params="&topRated=1" heading="Top Rated Products" />
+        <FeaturedTopRatedProduct params="&sortBy=popularity" heading="Top Rated Products" />
       </SectionContainer>
     </div>
   );

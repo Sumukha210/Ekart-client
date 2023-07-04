@@ -1,9 +1,10 @@
 import { useGetBrandsQuery, useGetCategoriesQuery } from "@/redux/api/productApi";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shared/modules/Accordion";
 import { Dispatch } from "react";
-import { AiFillStar, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
-import styled from "styled-components";
+import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { Action, IFilterState } from "./FiltersReducer";
+import Ratings from "./Ratings";
+import { ButtonContainer, RangeSlider, SideBar } from "./style";
 
 interface AllFilterMenuprops {
   closeAllFilterMenu: () => void;
@@ -11,24 +12,10 @@ interface AllFilterMenuprops {
   state: IFilterState;
 }
 
-const Ratings: React.FC<{ rating: number; handleRating: () => void }> = ({ rating, handleRating }) => {
-  return (
-    <div className="flex items-center w-3/6 cursor-pointer" onClick={handleRating}>
-      <div className="flex items-center">
-        {[...Array(5)].map((_, index) => (
-          <AiFillStar key={index} className={`h-4 w-4 ${index + 1 <= rating ? "text-black" : "text-gray-400"}`} />
-        ))}
-      </div>
-
-      <h6 className="font-semibold ml-3 text-gray-600">& up</h6>
-    </div>
-  );
-};
-
 const AllFilterMenu: React.FC<AllFilterMenuprops> = ({ state, closeAllFilterMenu, dispatch }) => {
   const { data: brands, isLoading: isBrandsLoading } = useGetBrandsQuery(null);
   const { data: categories, isLoading: isCategoriesLoading } = useGetCategoriesQuery(null);
-  const { isSideBarOpen, selectedCategory, selectedBrand, price } = state;
+  const { isSideBarOpen, selectedCategory, selectedBrand, price, selectedRating } = state;
 
   return (
     <>
@@ -118,46 +105,24 @@ const AllFilterMenu: React.FC<AllFilterMenuprops> = ({ state, closeAllFilterMenu
               <AccordionTrigger className="font-semibold transition hover:text-lime-500">Customer Ratings</AccordionTrigger>
               <AccordionContent>
                 <div className="space-y-4">
-                  <Ratings rating={4} handleRating={() => dispatch({ type: "SELECT_RATING", rating: 4 })} />
-                  <Ratings rating={3} handleRating={() => dispatch({ type: "SELECT_RATING", rating: 3 })} />
-                  <Ratings rating={2} handleRating={() => dispatch({ type: "SELECT_RATING", rating: 2 })} />
-                  <Ratings rating={1} handleRating={() => dispatch({ type: "SELECT_RATING", rating: 1 })} />
+                  <Ratings rating={4} selectedRating={selectedRating} handleRating={() => dispatch({ type: "SELECT_RATING", rating: 4 })} />
+                  <Ratings rating={3} selectedRating={selectedRating} handleRating={() => dispatch({ type: "SELECT_RATING", rating: 3 })} />
+                  <Ratings rating={2} selectedRating={selectedRating} handleRating={() => dispatch({ type: "SELECT_RATING", rating: 2 })} />
+                  <Ratings rating={1} selectedRating={selectedRating} handleRating={() => dispatch({ type: "SELECT_RATING", rating: 1 })} />
                 </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
+
+        <ButtonContainer className={`fixed ${isSideBarOpen ? "left-0 opacity-100" : "-left-96 opacity-0"} w-96 bottom-0`}>
+          <button className=" bg-lime-400 w-full font-semibold py-3" onClick={() => dispatch({ type: "SET_URL_PARAMS" })}>
+            View Results
+          </button>
+        </ButtonContainer>
       </SideBar>
     </>
   );
 };
 
 export default AllFilterMenu;
-
-const SideBar = styled.div`
-  transition: left 0.6s ease-in-out;
-`;
-
-const RangeSlider = styled.input`
-  -webkit-appearance: none;
-  appearance: none;
-  opacity: 0.7;
-  height: 10px;
-  border-radius: 5px;
-  outline: none;
-  transition: opacity 0.3s ease-in;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background: #111111;
-    cursor: pointer;
-    border-radius: 50%;
-  }
-`;

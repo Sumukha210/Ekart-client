@@ -1,11 +1,12 @@
 import Spinner from "@/elements/Spinner";
 import AllFilterMenu from "@/layout/products/AllFilterMenu";
 import { filterReducer, initialFilterState } from "@/layout/products/FiltersReducer";
-import { useFetchProducts } from "@/layout/products/useFetchProducts";
+import { IProduct } from "@/lib/types";
 import ProductCard from "@/shared/modules/ProductCard";
 import SectionContainer from "@/shared/modules/SectionContainer";
 import { useEffect, useReducer, useState } from "react";
 import { BsFilter } from "react-icons/bs";
+import InfiniteScroll from "react-infinite-scroll-component";
 import styled from "styled-components";
 
 interface ISortBy {
@@ -14,15 +15,40 @@ interface ISortBy {
 }
 
 const sortBy: ISortBy[] = [
-  { label: "Popularity", value: "popular" },
-  { label: "Price -  Low to High", value: "priceLow" },
-  { label: "Price -  High to Low", value: "priceHigh" },
+  { label: "Popularity", value: "popularity" },
+  { label: "Price -  Low to High", value: "priceLowToHigh" },
+  { label: "Price -  High to Low", value: "priceHighToLow" },
   { label: "Newest First", value: "newest" },
 ];
 
 const Products = () => {
   const [skip, setSkip] = useState(0);
-  const { isError, isLoading, products, lastProductElementRef } = useFetchProducts(skip, setSkip);
+  const [products, setProducts] = useState<IProduct[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/products?limit=10&skip=${skip}`);
+      const data = await response.json();
+
+      if (data?.status === "success") {
+        if (data?.result?.length) {
+          setProducts((prevProducts) => [...prevProducts, ...data.result]);
+          setSkip((prevSkip) => prevSkip + data.result.length);
+        }
+      }
+
+      if (data?.result?.length === 0 || products.length + data.result.length >= data.total) {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const [state, dispatch] = useReducer(filterReducer, initialFilterState);
   const { isSideBarOpen } = state;
@@ -54,7 +80,10 @@ const Products = () => {
             <label htmlFor="sortBy" className="font-semibold">
               Sort By |
             </label>
-            <Select id="sortBy" className="py-2 bg-gray-200 ml-2  px-5 rounded-full">
+            <Select
+              id="sortBy"
+              onChange={(e) => dispatch({ type: "SET_SORTBY", sortBy: e.target.value })}
+              className="py-2 bg-gray-200 ml-2  px-5 rounded-full font-medium">
               {sortBy.map(({ label, value }) => (
                 <option value={value} key={value} className="my-2  inline-block">
                   {label}
@@ -69,27 +98,20 @@ const Products = () => {
       <Overlay className={`fixed w-screen h-screen left-0 top-0 bg-black  z-40  ${isSideBarOpen ? "visible opacity-40" : "invisible opacity-0"}`}></Overlay>
       <AllFilterMenu dispatch={dispatch} closeAllFilterMenu={closeAllFilterMenu} state={state} />
 
-      <div className="grid grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-6">
-        {products.length
-          ? products.map((product, index) => {
-              if (products.length === index + 1) {
-                return (
-                  <div key={product._id} ref={lastProductElementRef}>
-                    <ProductCard {...product} />
-                  </div>
-                );
-              }
-
-              return (
-                <div key={product._id}>
-                  <ProductCard {...product} />
-                </div>
-              );
-            })
-          : null}
-      </div>
-      {isLoading && <Spinner />}
-      {isError && <h2 className="text-3xl">Failed to fetch products</h2>}
+      <InfiniteScroll
+        dataLength={products.length}
+        next={fetchProducts}
+        hasMore={hasMore}
+        loader={<Spinner />}
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            <b>Yay! You have seen it all</b>
+          </p>
+        }>
+        <div className="grid grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-6">
+          {products.length ? products.map((product: IProduct) => <ProductCard {...product} key={product._id} />) : "No Products"}
+        </div>
+      </InfiniteScroll>
     </SectionContainer>
   );
 };
