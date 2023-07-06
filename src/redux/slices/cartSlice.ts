@@ -13,7 +13,7 @@ const initialState: CartState = {
 export const EKART_CART = "ekart_cart";
 
 export const cartSlice = createSlice({
-  name: "counter",
+  name: "cart",
   initialState,
   reducers: {
     addAllToCart: (state, action: PayloadAction<IProductItem[]>) => {
@@ -26,23 +26,15 @@ export const cartSlice = createSlice({
     },
 
     removeFromCart: (state, action: PayloadAction<{ id: number }>) => {
-      const newProduts = state.products.filter(
-        (product) => product.id !== action.payload.id
-      );
+      const newProduts = state.products.filter((product) => product.id !== action.payload.id);
       state.products = newProduts;
       localStorage.setItem(EKART_CART, JSON.stringify(state.products));
     },
 
-    changeProduct: (
-      state,
-      action: PayloadAction<{ id: number; value: number }>
-    ) => {
+    changeProduct: (state, action: PayloadAction<{ id: number; value: number }>) => {
       state.products.forEach((product) => {
         if (product.id === action.payload.id) {
-          if (
-            action.payload.value <= product.stock &&
-            action.payload.value >= 1
-          ) {
+          if (action.payload.value <= product.stock && action.payload.value >= 1) {
             product.numberOfItemsSelected = action.payload.value;
           }
         }
@@ -72,13 +64,6 @@ export const cartSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  addToCart,
-  addAllToCart,
-  removeFromCart,
-  increaseProduct,
-  decreaseProduct,
-  changeProduct,
-} = cartSlice.actions;
+export const { addToCart, addAllToCart, removeFromCart, increaseProduct, decreaseProduct, changeProduct } = cartSlice.actions;
 
 export default cartSlice.reducer;

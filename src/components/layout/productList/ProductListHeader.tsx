@@ -1,3 +1,4 @@
+import { selectSortBy, toggleSidebar } from "@/redux/slices/productListSlice";
 import { BsFilter } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
@@ -16,16 +17,16 @@ const sortBy: ISortBy[] = [
 
 const Select = styled.select``;
 
-interface FilterSortMenuprops {}
+interface ProductListHeaderprops {}
 
-const FilterSortMenu: React.FC<FilterSortMenuprops> = () => {
+const ProductListHeader: React.FC<ProductListHeaderprops> = () => {
   const dispatch = useDispatch();
 
   return (
     <>
       <div className="my-10">
         <div className="flex items-center justify-between gap-6 mb-4">
-          <div onClick={() => dispatch({ type: "TOGGLE_SIDEBAR" })} className="cursor-pointer flex items-center bg-gray-200 px-5 py-2 rounded-full">
+          <div onClick={() => dispatch(toggleSidebar(true))} className="cursor-pointer flex items-center bg-gray-200 px-5 py-2 rounded-full">
             <BsFilter className="h-5 w-5" />
             <h4 className="text-sm font-semibold">Filters</h4>
           </div>
@@ -34,10 +35,7 @@ const FilterSortMenu: React.FC<FilterSortMenuprops> = () => {
             <label htmlFor="sortBy" className="font-semibold">
               Sort By |
             </label>
-            <Select
-              id="sortBy"
-              onChange={(e) => dispatch({ type: "SET_SORTBY", sortBy: e.target.value })}
-              className="py-2 bg-gray-200 ml-2  px-5 rounded-full font-medium">
+            <Select id="sortBy" onChange={(e) => dispatch(selectSortBy(e.target.value))} className="py-2 bg-gray-200 ml-2  px-5 rounded-full font-medium">
               {sortBy.map(({ label, value }) => (
                 <option value={value} key={value} className="my-2  inline-block">
                   {label}
@@ -52,4 +50,4 @@ const FilterSortMenu: React.FC<FilterSortMenuprops> = () => {
   );
 };
 
-export default FilterSortMenu;
+export default ProductListHeader;
