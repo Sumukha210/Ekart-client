@@ -1,12 +1,13 @@
 import ProductFilterMenu from "@/layout/productList/ProductFilterMenu";
 import { default as ProductListHeader } from "@/layout/productList/ProductListHeader";
+import Products from "@/layout/productList/Products";
 import { RootState } from "@/redux/store";
 import SectionContainer from "@/shared/modules/SectionContainer";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-const Products = () => {
+const ProductsPage = () => {
   const isSideBarOpen = useSelector((state: RootState) => state.productList.isSideBarOpen);
 
   useEffect(() => {
@@ -24,11 +25,12 @@ const Products = () => {
       <Overlay className={`fixed w-screen h-screen left-0 top-0 bg-black  z-40  ${isSideBarOpen ? "visible opacity-40" : "invisible opacity-0"}`}></Overlay>
       <ProductFilterMenu />
       <ProductListHeader />
+      <Products />
     </SectionContainer>
   );
 };
 
-export default Products;
+export default ProductsPage;
 
 const Overlay = styled.div`
   transition: all 0.6s ease-in-out;

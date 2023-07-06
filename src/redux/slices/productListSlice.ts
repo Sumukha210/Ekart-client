@@ -1,8 +1,6 @@
-import { IProductItem } from "@/lib/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export interface productListInitialState {
-  products: IProductItem[];
+export interface ProductListState {
   isSideBarOpen: boolean;
   selectedCategory: string[];
   selectedBrand: string[];
@@ -11,11 +9,12 @@ export interface productListInitialState {
   sortBy: string;
   skip: number;
   limit: number;
+  currentPage: number;
+  urlParams: string;
 }
 
-const initialState: productListInitialState = {
-  products: [],
-  isSideBarOpen: true,
+const initialState: ProductListState = {
+  isSideBarOpen: false,
   selectedCategory: [],
   selectedBrand: [],
   selectedRating: null,
@@ -23,7 +22,13 @@ const initialState: productListInitialState = {
   sortBy: "popularity",
   skip: 0,
   limit: 20,
+  currentPage: 1,
+  urlParams: "",
 };
+
+export const urlParams = new URLSearchParams(`skip=${initialState.skip}&limit=${initialState.limit}&sortBy=${initialState.sortBy}`);
+
+initialState.urlParams = urlParams.toString();
 
 export const productListSlice = createSlice({
   name: "productList",
@@ -35,6 +40,17 @@ export const productListSlice = createSlice({
 
     togglePrice: (state, action: PayloadAction<number>) => {
       state.price = action.payload;
+    },
+
+    setPage: (state, action: PayloadAction<number>) => {
+      if (action.payload === 1) {
+        state.skip = 0;
+      } else {
+        state.skip = state.limit * (action.payload - 1);
+      }
+      state.currentPage = action.payload;
+      urlParams.set("skip", state.skip.toString());
+      state.urlParams = urlParams.toString();
     },
 
     selectCategory: (state, action: PayloadAction<{ category: string; isSelected: boolean }>) => {
@@ -59,10 +75,63 @@ export const productListSlice = createSlice({
 
     selectSortBy: (state, action: PayloadAction<string>) => {
       state.sortBy = action.payload;
+      urlParams.set("sortBy", action.payload);
+      urlParams.set("skip", "0");
+      state.currentPage = 1;
+      state.urlParams = urlParams.toString();
+    },
+
+    viewResult: (state) => {
+      const { selectedBrand, selectedCategory, selectedRating, price } = state;
+      if (selectedRating) {
+        urlParams.set("ratings", selectedRating.toString());
+      }
+
+      if (selectedBrand.length) {
+        urlParams.set("brands", selectedBrand.join());
+      }
+
+      if (selectedCategory.length) {
+        urlParams.set("categories", selectedCategory.join());
+      }
+
+      if (price > 1) {
+        urlParams.set("priceBetween", `1,${price}`);
+      }
+
+      state.currentPage = 1;
+      state.urlParams = urlParams.toString();
+      state.isSideBarOpen = false;
+    },
+
+    clearMenuFilters: (state) => {
+      let { selectedBrand, selectedCategory, selectedRating, price } = state;
+      if (selectedRating) {
+        urlParams.delete("ratings");
+      }
+
+      if (selectedBrand.length) {
+        urlParams.delete("brands");
+      }
+
+      if (selectedCategory.length) {
+        urlParams.delete("categories");
+      }
+
+      if (price > 1) {
+        urlParams.delete("priceBetween");
+      }
+
+      selectedBrand.length = 0;
+      selectedCategory.length = 0;
+      selectedRating = null;
+      price = 1;
+      state.urlParams = urlParams.toString();
+      state.currentPage = 1;
     },
   },
 });
 
-export const { toggleSidebar, togglePrice, selectCategory, selectBrand, selectRating, selectSortBy } = productListSlice.actions;
+export const { toggleSidebar, togglePrice, clearMenuFilters, setPage, selectCategory, selectBrand, selectRating, selectSortBy, viewResult } = productListSlice.actions;
 
 export default productListSlice.reducer;

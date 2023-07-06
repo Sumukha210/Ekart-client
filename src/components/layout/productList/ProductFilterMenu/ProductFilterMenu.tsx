@@ -1,5 +1,5 @@
 import { useGetBrandsQuery, useGetCategoriesQuery } from "@/redux/api/productApi";
-import { selectBrand, selectCategory, selectRating, togglePrice, toggleSidebar } from "@/redux/slices/productListSlice";
+import { clearMenuFilters, selectBrand, selectCategory, selectRating, togglePrice, toggleSidebar, viewResult } from "@/redux/slices/productListSlice";
 import { RootState } from "@/redux/store";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shared/modules/Accordion";
 import { AiOutlineClose } from "react-icons/ai";
@@ -38,9 +38,16 @@ const ProductFilterMenu: React.FC<ProductFilterMenuprops> = () => {
     <>
       <SideBar className={`bg-gray-200 fixed top-0  ${isSideBarOpen ? "left-0" : "-left-96"} h-screen w-96 z-50 overflow-y-auto`}>
         <div className="m-4 relative">
-          <div className="absolute right-0 top-0 flex items-center bg-gray-300 px-4 py-1 rounded-full cursor-pointer" onClick={() => dispatch(toggleSidebar(false))}>
-            <span className="text-sm font-semibold">Close</span>
-            <AiOutlineClose className="h-4 w-4" />
+          <div className="flex items-center justify-between">
+            <div className="bg-gray-300 px-4 py-1 text-gray-600 gap-1 rounded-full cursor-pointer flex items-center" onClick={() => dispatch(clearMenuFilters())}>
+              <span className="text-sm font-semibold ">Clear all Filters</span>
+              <AiOutlineClose className="h-4 w-4" />
+            </div>
+
+            <div className="bg-gray-300 px-4 py-1 text-gray-600 gap-1 rounded-full cursor-pointer flex items-center" onClick={() => dispatch(toggleSidebar(false))}>
+              <span className="text-sm font-semibold ">Close</span>
+              <AiOutlineClose className="h-4 w-4" />
+            </div>
           </div>
 
           <Accordion type="single" collapsible className="w-full pt-8">
@@ -99,7 +106,9 @@ const ProductFilterMenu: React.FC<ProductFilterMenuprops> = () => {
         </div>
 
         <ButtonContainer className={`fixed ${isSideBarOpen ? "left-0 opacity-100" : "-left-96 opacity-0"} w-96 bottom-0`}>
-          <button className=" bg-lime-400 w-full font-semibold py-3">View Results</button>
+          <button className=" bg-lime-400 w-full font-semibold py-3" onClick={() => dispatch(viewResult())}>
+            View Results
+          </button>
         </ButtonContainer>
       </SideBar>
     </>
