@@ -1,7 +1,9 @@
-import { clearMenuFilters, selectSortBy, toggleSidebar } from "@/redux/slices/productListSlice";
-import { AiOutlineClose } from "react-icons/ai";
+import ClearBtn from "@/elements/ClearBtn";
+import { secondaryFont } from "@/lib/fonts";
+import { clearMenuFilters, selectBrand, selectCategory, selectRating, selectSortBy, togglePrice, toggleSidebar } from "@/redux/slices/productListSlice";
+import { RootState } from "@/redux/store";
 import { BsFilter } from "react-icons/bs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 interface ISortBy {
@@ -22,6 +24,7 @@ interface ProductListHeaderprops {}
 
 const ProductListHeader: React.FC<ProductListHeaderprops> = () => {
   const dispatch = useDispatch();
+  const appliedFilters = useSelector((state: RootState) => state.productList.appliedFilter);
 
   return (
     <>
@@ -46,16 +49,35 @@ const ProductListHeader: React.FC<ProductListHeaderprops> = () => {
           </div>
         </div>
 
-        <div className="mb-4">
-          <div className="bg-gray-200 px-4 py-1 text-gray-600 gap-1 rounded-full cursor-pointer inline-block" onClick={() => dispatch(clearMenuFilters())}>
-            <h5 className="flex items-center">
-              <span className="text-sm font-semibold ">Clear all Filters</span>
-              <AiOutlineClose className="h-4 w-4" />
-            </h5>
-          </div>
-        </div>
-
         <hr className="border-gray-300"></hr>
+
+        {appliedFilters.length ? (
+          <div className="my-4">
+            <h3 className={`${secondaryFont.className} text-lg font-semibold tracking-wider mb-4`}>Applied Filters:-</h3>
+
+            <div className="space-x-4">
+              {appliedFilters.map((filter) => (
+                <ClearBtn
+                  clickEvent={() => {
+                    if (filter === "Brand") {
+                      dispatch(selectBrand({ type: "clear" }));
+                    } else if (filter === "Category") {
+                      dispatch(selectCategory({ type: "clear" }));
+                    } else if (filter === "Rating") {
+                      dispatch(selectRating({ type: "clear" }));
+                    } else if (filter === "Price") {
+                      dispatch(togglePrice({ type: "clear" }));
+                    }
+                  }}
+                  key={filter}
+                  label={filter}
+                />
+              ))}
+
+              <ClearBtn clickEvent={() => dispatch(clearMenuFilters())} label="Clear all Filters" />
+            </div>
+          </div>
+        ) : null}
       </div>
     </>
   );

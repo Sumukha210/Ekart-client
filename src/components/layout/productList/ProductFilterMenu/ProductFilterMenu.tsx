@@ -13,7 +13,7 @@ interface ProductFilterMenuprops {}
 const ProductFilterMenu: React.FC<ProductFilterMenuprops> = () => {
   const { data: brands, isLoading: isBrandsLoading } = useGetBrandsQuery(null);
   const { data: categories, isLoading: isCategoriesLoading } = useGetCategoriesQuery(null);
-  const { isSideBarOpen, price, selectedCategory, selectedBrand, selectedRating } = useSelector((state: RootState) => state.productList);
+  const { isSideBarOpen, price, selectedCategory, selectedBrand, selectedRating, appliedFilter } = useSelector((state: RootState) => state.productList);
   const dispatch = useDispatch();
 
   const CATEGORIES = (
@@ -39,7 +39,9 @@ const ProductFilterMenu: React.FC<ProductFilterMenuprops> = () => {
       <SideBar className={`bg-gray-200 fixed top-0  ${isSideBarOpen ? "left-0" : "-left-96"} h-screen w-96 z-50 overflow-y-auto`}>
         <div className="m-4 relative">
           <div className="flex items-center justify-between">
-            <div className="bg-gray-300 px-4 py-1 text-gray-600 gap-1 rounded-full cursor-pointer flex items-center" onClick={() => dispatch(clearMenuFilters())}>
+            <div
+              className={`bg-gray-300 px-4 py-1 text-gray-600 gap-1 rounded-full cursor-pointer flex items-center ${appliedFilter.length ? "visible" : "invisible"}`}
+              onClick={() => dispatch(clearMenuFilters())}>
               <span className="text-sm font-semibold ">Clear all Filters</span>
               <AiOutlineClose className="h-4 w-4" />
             </div>
@@ -62,7 +64,7 @@ const ProductFilterMenu: React.FC<ProductFilterMenuprops> = () => {
                     min={1}
                     max={5000}
                     value={price}
-                    onChange={(e) => dispatch(togglePrice(Number(e.target.value)))}
+                    onChange={(e) => dispatch(togglePrice({ value: Number(e.target.value) }))}
                   />
                   <span className="font-medium">5000</span>
                 </div>
@@ -95,10 +97,10 @@ const ProductFilterMenu: React.FC<ProductFilterMenuprops> = () => {
               <AccordionTrigger className="font-semibold transition hover:text-lime-500">Customer Ratings</AccordionTrigger>
               <AccordionContent>
                 <div className="space-y-4">
-                  <Ratings rating={4} selectedRating={selectedRating} handleRating={() => dispatch(selectRating(4))} />
-                  <Ratings rating={3} selectedRating={selectedRating} handleRating={() => dispatch(selectRating(3))} />
-                  <Ratings rating={2} selectedRating={selectedRating} handleRating={() => dispatch(selectRating(2))} />
-                  <Ratings rating={1} selectedRating={selectedRating} handleRating={() => dispatch(selectRating(1))} />
+                  <Ratings rating={4} selectedRating={selectedRating} handleRating={() => dispatch(selectRating({ value: 4 }))} />
+                  <Ratings rating={3} selectedRating={selectedRating} handleRating={() => dispatch(selectRating({ value: 3 }))} />
+                  <Ratings rating={2} selectedRating={selectedRating} handleRating={() => dispatch(selectRating({ value: 2 }))} />
+                  <Ratings rating={1} selectedRating={selectedRating} handleRating={() => dispatch(selectRating({ value: 1 }))} />
                 </div>
               </AccordionContent>
             </AccordionItem>

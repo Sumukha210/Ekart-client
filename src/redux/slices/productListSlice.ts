@@ -11,7 +11,13 @@ export interface ProductListState {
   limit: number;
   currentPage: number;
   urlParams: string;
+  appliedFilter: ("Brand" | "Category" | "Price" | "Rating")[];
 }
+
+type ClearAction = { type: "clear" };
+type CategoryAction = { type?: "add"; category: string; isSelected: boolean } | ClearAction;
+type BrandAction = { type?: "add"; isSelected: boolean; brand: string } | ClearAction;
+type RatingPriceAction = { type?: "add"; value: number } | ClearAction;
 
 const initialState: ProductListState = {
   isSideBarOpen: false,
@@ -24,6 +30,7 @@ const initialState: ProductListState = {
   limit: 20,
   currentPage: 1,
   urlParams: "",
+  appliedFilter: [],
 };
 
 export const urlParams = new URLSearchParams(`skip=${initialState.skip}&limit=${initialState.limit}&sortBy=${initialState.sortBy}`);
@@ -38,10 +45,6 @@ export const productListSlice = createSlice({
       state.isSideBarOpen = action.payload;
     },
 
-    togglePrice: (state, action: PayloadAction<number>) => {
-      state.price = action.payload;
-    },
-
     setPage: (state, action: PayloadAction<number>) => {
       if (action.payload === 1) {
         state.skip = 0;
@@ -53,24 +56,60 @@ export const productListSlice = createSlice({
       state.urlParams = urlParams.toString();
     },
 
-    selectCategory: (state, action: PayloadAction<{ category: string; isSelected: boolean }>) => {
-      if (!action.payload.isSelected) {
-        state.selectedCategory.push(action.payload.category);
+    togglePrice: (state, action: PayloadAction<RatingPriceAction>) => {
+      if (action.payload.type === "clear") {
+        state.price = 1;
+        state.appliedFilter = state.appliedFilter.filter((item) => item !== "Price");
+        urlParams.delete("priceBetween");
+        state.urlParams = urlParams.toString();
       } else {
-        state.selectedCategory = state.selectedCategory.filter((categoryItem) => categoryItem !== action.payload.category);
+        state.price = action.payload.value;
       }
     },
 
-    selectBrand: (state, action: PayloadAction<{ brand: string; isSelected: boolean }>) => {
-      if (!action.payload.isSelected) {
-        state.selectedBrand.push(action.payload.brand);
+    selectCategory: (state, action: PayloadAction<CategoryAction>) => {
+      if (action.payload.type === "clear") {
+        state.selectedCategory.length = 0;
+        state.appliedFilter = state.appliedFilter.filter((item) => item !== "Category");
+        urlParams.delete("categories");
+        state.urlParams = urlParams.toString();
       } else {
-        state.selectedBrand = state.selectedBrand.filter((categoryItem) => categoryItem !== action.payload.brand);
+        const { category, isSelected } = action.payload;
+
+        if (!isSelected) {
+          state.selectedCategory.push(category);
+        } else {
+          state.selectedCategory = state.selectedCategory.filter((categoryItem) => categoryItem !== category);
+        }
       }
     },
 
-    selectRating: (state, action: PayloadAction<number>) => {
-      state.selectedRating = action.payload;
+    selectBrand: (state, action: PayloadAction<BrandAction>) => {
+      if (action.payload.type === "clear") {
+        state.selectedBrand.length = 0;
+        state.appliedFilter = state.appliedFilter.filter((item) => item !== "Brand");
+        urlParams.delete("brands");
+        state.urlParams = urlParams.toString();
+      } else {
+        const { brand, isSelected } = action.payload;
+
+        if (!isSelected) {
+          state.selectedBrand.push(action.payload.brand);
+        } else {
+          state.selectedBrand = state.selectedBrand.filter((brandItem) => brandItem !== brand);
+        }
+      }
+    },
+
+    selectRating: (state, action: PayloadAction<RatingPriceAction>) => {
+      if (action.payload.type === "clear") {
+        state.selectedRating = null;
+        state.appliedFilter = state.appliedFilter.filter((item) => item !== "Rating");
+        urlParams.delete("ratings");
+        state.urlParams = urlParams.toString();
+      } else {
+        state.selectedRating = action.payload.value;
+      }
     },
 
     selectSortBy: (state, action: PayloadAction<string>) => {
@@ -82,21 +121,26 @@ export const productListSlice = createSlice({
     },
 
     viewResult: (state) => {
-      const { selectedBrand, selectedCategory, selectedRating, price } = state;
+      const { selectedBrand, selectedCategory, selectedRating, price, appliedFilter } = state;
+
       if (selectedRating) {
         urlParams.set("ratings", selectedRating.toString());
+        appliedFilter.push("Rating");
       }
 
       if (selectedBrand.length) {
         urlParams.set("brands", selectedBrand.join());
+        appliedFilter.push("Brand");
       }
 
       if (selectedCategory.length) {
         urlParams.set("categories", selectedCategory.join());
+        appliedFilter.push("Category");
       }
 
       if (price > 1) {
         urlParams.set("priceBetween", `1,${price}`);
+        appliedFilter.push("Price");
       }
 
       state.currentPage = 1;
@@ -128,6 +172,7 @@ export const productListSlice = createSlice({
       price = 1;
       state.urlParams = urlParams.toString();
       state.currentPage = 1;
+      state.appliedFilter.length = 0;
     },
   },
 });
