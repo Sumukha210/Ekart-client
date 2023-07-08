@@ -4,6 +4,7 @@ import { Provider, useDispatch } from "react-redux";
 
 import { EKART_CART, addAllToCart } from "@/redux/slices/cartSlice";
 import { store } from "@/redux/store";
+import Footer from "@/shared/Footer";
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
 
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Navbar />
       <GetCartItemsFromLocalStorage />
       <Component {...pageProps} />
+      <Footer />
     </Provider>
   );
 }

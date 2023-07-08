@@ -8,7 +8,7 @@ module.exports = {
         borderColor: "var(--borderColor)",
       },
       screens: {
-        xsm: "320px",
+        xsm: "380px",
         sm: "576px",
         md: "768px",
         lg: "992px",
