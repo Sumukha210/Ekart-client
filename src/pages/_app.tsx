@@ -26,8 +26,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <Navbar />
-      <GetCartItemsFromLocalStorage />
-      <Component {...pageProps} />
+      <main className="min-h-screen">
+        <GetCartItemsFromLocalStorage />
+        <Component {...pageProps} />
+      </main>
       <Footer />
     </Provider>
   );

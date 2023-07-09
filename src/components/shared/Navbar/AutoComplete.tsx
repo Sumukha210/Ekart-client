@@ -20,7 +20,7 @@ const AutoComplete = () => {
   const fetchData = async (searchInput: string) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL!}/products/${searchInput}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL!}/products/search/${searchInput}`);
       const data = await response.json();
       if (data.status === "success" && data.result.length) setProductData(data.result);
     } catch (error) {

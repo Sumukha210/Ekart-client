@@ -14,11 +14,12 @@ interface ProductCardprops extends IProduct {}
 
 const ProductCard: React.FC<ProductCardprops> = ({ title, category, price, discountPercentage, id, rating, ...rest }) => {
   const [isAddedToCart, setIsAddedToCart] = useState(false);
+  const { products } = useSelector((state: RootState) => state.cart);
+  const totalPrice = calculateTotalPrice(price, discountPercentage);
 
   const dispatch = useDispatch();
-  const { products } = useSelector((state: RootState) => state.cart);
 
-  const totalPrice = calculateTotalPrice(price, discountPercentage);
+  const productUrl = `/collections/${rest?._id}?name=${encodeURIComponent(title)}`;
 
   useEffect(() => {
     const findProduct = products.find((product) => product.id === id);
@@ -39,9 +40,14 @@ const ProductCard: React.FC<ProductCardprops> = ({ title, category, price, disco
 
   return (
     <>
-      <Link href={`/product/${id}`} key={id} className="bg-white border border-borderColor rounded-2xl overflow-hidden block relative">
+      <Link href={productUrl} title="view product" key={id} className="bg-white border border-borderColor rounded-2xl overflow-hidden block relative">
         <figure className="h-60  relative">
-          <NextImage sizes="(max-width: 576px) 90vw, (max-width: 992px) 35vw, 25vw" src={`http://localhost:5000/product_${id}/image_1.jpg`} fill alt={title} />
+          <NextImage
+            sizes="(max-width: 576px) 90vw, (max-width: 992px) 35vw, 25vw"
+            src={`${process.env.NEXT_PUBLIC_BASE_URL}/product_${id}/image_1.jpg`}
+            fill
+            alt={title}
+          />
         </figure>
 
         <div className="mb-10 p-4">
