@@ -40,21 +40,14 @@ const ProductCard: React.FC<ProductCardprops> = ({ title, category, price, disco
 
   return (
     <>
-      <Link href={productUrl} title="view product" key={id} className="bg-white border border-borderColor rounded-2xl overflow-hidden block relative">
-        <figure className="h-60  relative">
-          <NextImage
-            sizes="(max-width: 576px) 90vw, (max-width: 992px) 35vw, 25vw"
-            src={`${process.env.NEXT_PUBLIC_BASE_URL}/product_${id}/image_1.jpg`}
-            fill
-            alt={title}
-          />
+      <Link href={productUrl} title="view product" key={id} className="bg-light overflow-hidden block relative">
+        <figure className="relative h-60 sm:pb-[100%] border border-light bg-white">
+          <NextImage src={`${process.env.NEXT_PUBLIC_BASE_URL}/product_${id}/image_1.jpg`} fill className="object-contain h-full" alt={title} />
         </figure>
 
         <div className="mb-10 p-4">
           <p className="text-[10px] tracking-wider text-gray-400 font-bold uppercase">{category}</p>
-          <h3 className={`${secondaryFont.className} whitespace-nowrap overflow-hidden text-ellipsis text-xl sm:text-lg tracking-wider font-semibold text-gray-600 my-1`}>
-            {title}
-          </h3>
+          <h3 className={`${secondaryFont.className} whitespace-nowrap overflow-hidden text-ellipsis text-xl  tracking-wider text-dark my-1`}>{title}</h3>
 
           <div className="flex items-center justify-between ">
             <div className="flex items-center pt-2">
@@ -75,7 +68,9 @@ const ProductCard: React.FC<ProductCardprops> = ({ title, category, price, disco
 
         <button
           onClick={handleCart}
-          className={`mt-2 block ${isAddedToCart ? "bg-red-400" : "bg-lime-400"} text-xs font-bold w-full py-3 uppercase tracking-wide absolute bottom-0 left-0`}>
+          className={`mt-2 block ${
+            isAddedToCart ? "bg-red-400" : "bg-primary"
+          } text-xs font-medium w-full py-3 uppercase text-white tracking-wider  absolute bottom-0 left-0 hover:opacity-60`}>
           {isAddedToCart ? "Remove from" : "Add to"} cart
         </button>
       </Link>

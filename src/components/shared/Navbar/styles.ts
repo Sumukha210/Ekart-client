@@ -33,18 +33,24 @@ export const Logo = styled(Link)`
   }
 `;
 
-export const NavLink = styled(Link)`
-  &::after {
-    content: "";
+export const Ul = styled.ul`
+  @media (max-width: 768px) {
     position: absolute;
-    left: 0%;
-    bottom: -10px;
-    width: 0%;
-    height: 4px;
-    transition: width 0.5s ease-in;
-  }
+    top: -60vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    z-index: 30;
+    height: 300px;
+    padding-inline: 8rem;
 
-  &:hover::after {
-    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    transition: top 0.5s ease-in;
+
+    &.active {
+      top: 60px;
+      transition: top 0.5s ease-in;
+    }
   }
 `;

@@ -5,7 +5,11 @@ module.exports = {
     extend: {
       colors: {
         primary: "var(--primary-color)",
-        borderColor: "var(--borderColor)",
+        accent: "var(--accent-color)",
+        dark: "var(--dark-color)",
+        grey: "var(--grey-color)",
+        light: "var(--light-color)",
+        secondary: "var(--secondary-color)"
       },
       screens: {
         xsm: "380px",

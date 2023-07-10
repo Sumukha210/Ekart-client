@@ -1,5 +1,4 @@
 import SubHeading from "@/elements/SubHeading";
-import { secondaryFont } from "@/lib/fonts";
 import { useGetCategoriesQuery } from "@/redux/api/productApi";
 import SectionContainer from "@/shared/modules/SectionContainer";
 import Link from "next/link";
@@ -9,22 +8,22 @@ const Categories = () => {
   const { data, isError } = useGetCategoriesQuery(null);
 
   return (
-    <SectionContainer>
-      <SubHeading text="Our Categories" />
-      <ScrollContainer className="flex items-center gap-6 overflow-x-auto">
-        {!isError && data?.result.length
-          ? data.result.map((category: string) => (
-              <div key={category} className="border border-gray-400 rounded-full min-w-[190px] text-center  py-2 ">
-                <Link
-                  href={`/shop?category=${category}`}
-                  className={`${secondaryFont.className} inline-block text-gray-700 tracking-wide font-semibold capitalize text-lg`}>
-                  {category}
-                </Link>
-              </div>
-            ))
-          : null}
-      </ScrollContainer>
-    </SectionContainer>
+    <div className="bg-accent py-16 mt-20">
+      <SectionContainer className="mt-0">
+        <SubHeading text="Our Categories" className="text-center" />
+        <ScrollContainer className="flex items-center gap-6 overflow-x-auto cursor-grab">
+          {!isError && data?.result.length
+            ? data.result.map((category: string) => (
+                <div key={category} className="border border-primary  min-w-[190px]  text-center  py-3">
+                  <Link href={`/collections?category=${category}`} className={`cursor-pointer text-dark font-medium tracking-wider text-sm  capitalize`}>
+                    {category.replaceAll("-", " ").toLowerCase()}
+                  </Link>
+                </div>
+              ))
+            : null}
+        </ScrollContainer>
+      </SectionContainer>
+    </div>
   );
 };
 

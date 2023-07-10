@@ -1,3 +1,4 @@
+import FetchErrorMessage from "@/elements/FetchErrorMessage";
 import Spinner from "@/elements/Spinner";
 import { secondaryFont } from "@/lib/fonts";
 import { IProduct } from "@/lib/types";
@@ -16,7 +17,7 @@ const Products: React.FC<Productsprops> = () => {
   const urlParams = useSelector((state: RootState) => state.productList.urlParams);
   const dispatch = useDispatch();
 
-  const { isLoading, data, isError } = useGetProductsQuery(urlParams);
+  const { isLoading, data, isError, refetch } = useGetProductsQuery(urlParams);
 
   const handlePageChange = (page: number) => {
     dispatch(setPage(page));
@@ -26,19 +27,12 @@ const Products: React.FC<Productsprops> = () => {
     <>
       {isLoading && <Spinner />}
 
-      {isError && (
-        <div>
-          <h3 className="text-center">Failed to fetch products</h3>{" "}
-          <button className="bg-gray-300 px-2 py-1 text-sm" onClick={() => window.location.reload()}>
-            Refresh page
-          </button>
-        </div>
-      )}
+      <FetchErrorMessage handleRefetch={() => refetch()} isError={isError} />
 
       {!isLoading &&
         !isError &&
         (data?.result.length ? (
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-y-7 sm:gap-3 lg:gap-4 mb-10">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-10">
             {data?.result?.map((product: IProduct) => (
               <ProductCard {...product} key={product._id} />
             ))}
@@ -48,7 +42,9 @@ const Products: React.FC<Productsprops> = () => {
         ))}
 
       {!isLoading && !isError && data?.total ? (
-        <Pagination totalProducts={data.total} productsPerPage={limit} currentPage={currentPage} onPageChange={handlePageChange} />
+        <div className="mt-16">
+          <Pagination totalProducts={data.total} productsPerPage={limit} currentPage={currentPage} onPageChange={handlePageChange} />
+        </div>
       ) : null}
     </>
   );

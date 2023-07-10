@@ -21,7 +21,7 @@ const ProductsPage = () => {
   }, [isSideBarOpen]);
 
   return (
-    <SectionContainer>
+    <SectionContainer className="mt-0">
       <Overlay className={`fixed w-screen h-screen left-0 top-0 bg-black  z-40  ${isSideBarOpen ? "visible opacity-40" : "invisible opacity-0"}`}></Overlay>
       <ProductFilterMenu />
       <ProductListHeader />

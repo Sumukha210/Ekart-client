@@ -32,7 +32,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalProducts, productsPerPage,
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`mx-1 h-7 w-8 text-base flex items-center justify-center rounded ${i === currentPage ? "bg-gray-700 text-white" : "bg-gray-200 text-gray-800"}`}>
+          className={`mx-1 h-7 w-8 text-base flex items-center justify-center rounded ${i === currentPage ? "bg-dark text-white" : "bg-gray-200 text-gray-800"}`}>
           {i}
         </button>
       );
@@ -42,7 +42,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalProducts, productsPerPage,
   };
 
   return (
-    <div className="flex items-center justify-center my-10">
+    <div className="flex items-center justify-center">
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}

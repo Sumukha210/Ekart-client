@@ -43,12 +43,12 @@ const ChooseUs = () => {
       <SubHeading text="Why to choose us" />
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {content.map(({ title, description, Icon }, index) => (
-          <Section key={index} className="bg-white border border-borderColor p-4 rounded-2xl hover:bg-lime-300 transition text-center">
-            <div className="bg-lime-400 mb-2  h-[70px] w-[70px] p-5 rounded-full mx-auto flex items-center justify-center">
+          <Section key={index} className="bg-light p-6  hover:bg-accent transition">
+            <div className="bg-primary text-white mb-2  h-[70px] w-[70px] p-5 rounded-full mx-auto flex items-center justify-center">
               <Icon className="h-full w-full" />
             </div>
-            <h4 className="text-xl sm:text-lg font-semibold mb-2">{title}</h4>
-            <p className="text-gray-600 leading-7">{description}</p>
+            <h4 className="text-xl sm:text-lg font-semibold text-primary mb-1 mt-3">{title}</h4>
+            <p className="leading-6 text-sm text-grey">{description}</p>
           </Section>
         ))}
       </div>

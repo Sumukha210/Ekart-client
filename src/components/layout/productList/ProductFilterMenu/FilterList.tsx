@@ -20,12 +20,10 @@ const FilterList: React.FC<FilterListProps> = ({ isLoading, items, selectedItems
         return (
           <li
             onClick={() => onSelectItem(item, isSelected)}
-            className={`hover:text-dark hover:underline hover:font-semibold transition-all cursor-pointer flex items-center ${
-              isSelected ? "text-blue-500 font-semibold" : ""
-            }`}
+            className={`hover:text-primary hover:underline transition-all cursor-pointer flex items-center ${isSelected ? "text-blue-500 font-medium" : ""}`}
             key={item}>
             {isSelected && <AiOutlineCheck />}
-            <span className="ml-1">{item}</span>
+            <span className="ml-1">{item.toLowerCase().replaceAll("-", " ")}</span>
           </li>
         );
       })}

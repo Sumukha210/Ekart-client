@@ -7,7 +7,7 @@ interface Spinnerprops {
 const Spinner: React.FC<Spinnerprops> = ({ my = "my-10" }) => {
   return (
     <div className={`text-center flex items-center justify-center ${my}`}>
-      <LoadingSpinner className="border-4 border-gray-200 border-t-lime-500" />
+      <LoadingSpinner className="border-4 border-gray-200 border-t-primary" />
     </div>
   );
 };

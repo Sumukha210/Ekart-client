@@ -36,25 +36,25 @@ const ProductFilterMenu: React.FC<ProductFilterMenuprops> = () => {
 
   return (
     <>
-      <SideBar className={`bg-gray-200 fixed top-0  ${isSideBarOpen ? "left-0" : "-left-96"} h-screen w-96 z-50 overflow-y-auto`}>
+      <SideBar className={`bg-light fixed top-0  ${isSideBarOpen ? "left-0" : "-left-96"} h-screen w-96 z-50 overflow-y-auto`}>
         <div className="m-4 relative">
           <div className="flex items-center justify-between">
             <div
-              className={`bg-gray-300 px-4 py-1 text-gray-600 gap-1 rounded-full cursor-pointer flex items-center ${appliedFilter.length ? "visible" : "invisible"}`}
+              className={`bg-gray-200 px-5 py-1 text-grey gap-1 rounded-full cursor-pointer flex items-center ${appliedFilter.length ? "visible" : "invisible"}`}
               onClick={() => dispatch(clearMenuFilters())}>
               <span className="text-sm font-semibold ">Clear all Filters</span>
               <AiOutlineClose className="h-4 w-4" />
             </div>
 
-            <div className="bg-gray-300 px-4 py-1 text-gray-600 gap-1 rounded-full cursor-pointer flex items-center" onClick={() => dispatch(toggleSidebar(false))}>
-              <span className="text-sm font-semibold ">Close</span>
+            <div className="bg-gray-200 px-5 py-1 text-grey gap-1 rounded-full cursor-pointer flex items-center" onClick={() => dispatch(toggleSidebar(false))}>
+              <span className="text-sm font-medium">Close</span>
               <AiOutlineClose className="h-4 w-4" />
             </div>
           </div>
 
           <Accordion type="single" collapsible className="w-full pt-8">
-            <AccordionItem value="item-1">
-              <AccordionTrigger className="font-semibold transition hover:text-lime-500">Price</AccordionTrigger>
+            <AccordionItem className="border-grey" value="item-1">
+              <AccordionTrigger className="font-medium text-dark transition hover:text-primary">Price</AccordionTrigger>
               <AccordionContent>
                 <div className="flex items-center">
                   <span className="font-medium">1</span>
@@ -75,26 +75,26 @@ const ProductFilterMenu: React.FC<ProductFilterMenuprops> = () => {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-2 -mt-2">
-              <AccordionTrigger className="font-semibold transition hover:text-lime-500">
+            <AccordionItem value="item-2 -mt-2" className="border-grey">
+              <AccordionTrigger className="font-medium text-dark transition hover:text-primary">
                 <span>Categories {selectedCategory.length ? <span className="text-sm">( {selectedCategory.length} )</span> : null}</span>
               </AccordionTrigger>
               <AccordionContent className="pl-2">
-                <ul className="font-medium capitalize space-y-3">{CATEGORIES}</ul>
+                <ul className="capitalize space-y-3">{CATEGORIES}</ul>
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-3">
-              <AccordionTrigger className="font-semibold transition hover:text-lime-500">
+            <AccordionItem value="item-3" className="border-grey">
+              <AccordionTrigger className="font-medium text-dark transition hover:text-primary">
                 <span>Brands {selectedBrand.length ? <span className="text-sm">( {selectedBrand.length} )</span> : null}</span>
               </AccordionTrigger>
               <AccordionContent className="pl-2">
-                <ul className="font-medium capitalize space-y-3">{BRANDS}</ul>
+                <ul className="capitalize space-y-3">{BRANDS}</ul>
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-4">
-              <AccordionTrigger className="font-semibold transition hover:text-lime-500">Customer Ratings</AccordionTrigger>
+            <AccordionItem value="item-4" className="border-grey">
+              <AccordionTrigger className="font-medium text-dark transition hover:text-primary">Customer Ratings</AccordionTrigger>
               <AccordionContent>
                 <div className="space-y-4">
                   <Ratings rating={4} selectedRating={selectedRating} handleRating={() => dispatch(selectRating({ value: 4 }))} />
@@ -108,7 +108,7 @@ const ProductFilterMenu: React.FC<ProductFilterMenuprops> = () => {
         </div>
 
         <ButtonContainer className={`fixed ${isSideBarOpen ? "left-0 opacity-100" : "-left-96 opacity-0"} w-96 bottom-0`}>
-          <button className=" bg-lime-400 w-full font-semibold py-3" onClick={() => dispatch(viewResult())}>
+          <button className=" bg-primary w-full font-medium uppercase tracking-wider py-4 text-white text-sm hover:opacity-60" onClick={() => dispatch(viewResult())}>
             View Results
           </button>
         </ButtonContainer>

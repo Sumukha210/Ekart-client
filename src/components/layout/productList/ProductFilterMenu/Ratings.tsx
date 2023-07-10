@@ -15,7 +15,7 @@ const Ratings: React.FC<IRatings> = ({ rating, selectedRating, handleRating = ()
     ratingList.push(
       <AiFillStar
         key={i}
-        className={twMerge(`h-4 w-4 ${i <= rating ? (rating === (selectedRating && selectedRating) ? "text-yellow-500" : "text-black") : "text-gray-400"}`)}
+        className={twMerge(`h-4 w-4 ${i <= rating ? (rating === (selectedRating && selectedRating) ? "text-yellow-500" : "text-grey") : "text-gray-400"}`)}
       />
     );
   }
@@ -24,7 +24,7 @@ const Ratings: React.FC<IRatings> = ({ rating, selectedRating, handleRating = ()
     <>
       <div className="flex items-center w-3/6 cursor-pointer" onClick={handleRating}>
         <div className="flex items-center">{ratingList}</div>
-        {showUpText && <h6 className="font-semibold ml-3 text-gray-600 up">& up</h6>}
+        {showUpText && <h6 className="font-medium ml-3 text-gray-600 up capitalize">& up</h6>}
       </div>
     </>
   );

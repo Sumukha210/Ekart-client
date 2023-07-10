@@ -11,9 +11,7 @@ interface PageHeadingprops {
 const PageHeading: React.FC<PageHeadingprops> = ({ text, allowBottomLine = true, className }) => {
   return (
     <Heading
-      className={twMerge(
-        `${secondaryFont.className} ${allowBottomLine ? "bottomLine" : ""} relative text-4xl font-medium after:bg-lime-400 inline-block mb-12 ${className}`
-      )}>
+      className={twMerge(`${secondaryFont.className} ${allowBottomLine ? "bottomLine" : ""} relative text-6xl  after:bg-lime-400 inline-block mb-12 ${className}`)}>
       {text}
     </Heading>
   );

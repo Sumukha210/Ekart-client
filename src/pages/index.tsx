@@ -6,7 +6,7 @@ import SectionContainer from "@/shared/modules/SectionContainer";
 
 const Home = () => {
   return (
-    <div className="mt-20">
+    <div>
       <HeroCarousel />
 
       <ChooseUs />

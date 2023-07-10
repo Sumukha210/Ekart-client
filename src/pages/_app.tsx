@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <Navbar />
-      <main className="min-h-screen">
+      <main className="min-h-screen overflow-x-hidden">
         <GetCartItemsFromLocalStorage />
         <Component {...pageProps} />
       </main>

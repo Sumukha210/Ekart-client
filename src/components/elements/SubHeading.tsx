@@ -7,7 +7,7 @@ interface SubHeadingprops {
 }
 
 const SubHeading: React.FC<SubHeadingprops> = ({ text, className }) => {
-  return <h2 className={twMerge(`${secondaryFont.className} text-3xl mb-10 tracking-wider font-semibold ${className}`)}>{text}</h2>;
+  return <h2 className={twMerge(`${secondaryFont.className} text-[40px] mb-10 text-dark tracking-wider  ${className}`)}>{text}</h2>;
 };
 
 export default SubHeading;
