@@ -108,7 +108,7 @@ const ProductFilterMenu: React.FC<ProductFilterMenuprops> = () => {
         </div>
 
         <ButtonContainer className={`fixed ${isSideBarOpen ? "left-0 opacity-100" : "-left-96 opacity-0"} w-96 bottom-0`}>
-          <button className=" bg-primary w-full font-medium uppercase tracking-wider py-4 text-white text-sm hover:opacity-60" onClick={() => dispatch(viewResult())}>
+          <button className=" bg-primary w-full font-medium uppercase tracking-wider py-4 text-white text-sm hover:bg-secondary" onClick={() => dispatch(viewResult())}>
             View Results
           </button>
         </ButtonContainer>

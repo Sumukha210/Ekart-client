@@ -131,11 +131,15 @@ export const productListSlice = createSlice({
       if (selectedBrand.length) {
         urlParams.set("brands", selectedBrand.join());
         appliedFilter.push("Brand");
+      } else {
+        urlParams.delete("brands");
       }
 
       if (selectedCategory.length) {
         urlParams.set("categories", selectedCategory.join());
-        appliedFilter.push("Category");
+        if (!appliedFilter.includes("Category")) appliedFilter.push("Category");
+      } else {
+        urlParams.delete("categories");
       }
 
       if (price > 1) {
@@ -146,6 +150,18 @@ export const productListSlice = createSlice({
       state.currentPage = 1;
       state.urlParams = urlParams.toString();
       state.isSideBarOpen = false;
+    },
+
+    setNavigteFilters: (state, action: PayloadAction<{ filter: "category" | "brand"; value: string }>) => {
+      const { filter, value } = action.payload;
+
+      if (filter === "brand" && !state.selectedBrand.includes(value)) {
+        urlParams.set("brands", value);
+        state.selectedBrand.push(value);
+        state.urlParams = urlParams.toString();
+
+        if (!state.appliedFilter.includes("Brand")) state.appliedFilter.push("Brand");
+      }
     },
 
     clearMenuFilters: (state) => {
@@ -177,6 +193,7 @@ export const productListSlice = createSlice({
   },
 });
 
-export const { toggleSidebar, togglePrice, clearMenuFilters, setPage, selectCategory, selectBrand, selectRating, selectSortBy, viewResult } = productListSlice.actions;
+export const { toggleSidebar, togglePrice, clearMenuFilters, setPage, selectCategory, selectBrand, selectRating, selectSortBy, viewResult, setNavigteFilters } =
+  productListSlice.actions;
 
 export default productListSlice.reducer;

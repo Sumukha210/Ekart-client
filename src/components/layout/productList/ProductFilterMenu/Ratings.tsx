@@ -6,9 +6,10 @@ interface IRatings {
   handleRating?: () => void;
   showUpText?: boolean;
   selectedRating: null | number;
+  className?: string;
 }
 
-const Ratings: React.FC<IRatings> = ({ rating, selectedRating, handleRating = () => {}, showUpText = true }) => {
+const Ratings: React.FC<IRatings> = ({ rating, selectedRating, handleRating = () => {}, showUpText = true, className }) => {
   const ratingList: React.JSX.Element[] = [];
 
   for (let i = 1; i <= 5; i++) {
@@ -22,7 +23,7 @@ const Ratings: React.FC<IRatings> = ({ rating, selectedRating, handleRating = ()
 
   return (
     <>
-      <div className="flex items-center w-3/6 cursor-pointer" onClick={handleRating}>
+      <div className={twMerge(`flex items-center w-3/6 cursor-pointer ${className}`)} onClick={handleRating}>
         <div className="flex items-center">{ratingList}</div>
         {showUpText && <h6 className="font-medium ml-3 text-gray-600 up capitalize">& up</h6>}
       </div>
