@@ -1,9 +1,6 @@
-import FetchErrorMessage from "@/elements/FetchErrorMessage";
-import LinkButton from "@/elements/LinkButton";
 import Spinner from "@/elements/Spinner";
 import SubHeading from "@/elements/SubHeading";
 import MainProduct from "@/layout/individualProduct/MainProduct";
-import { secondaryFont } from "@/lib/fonts";
 import { IProduct } from "@/lib/types";
 import { useGetProductByIdQuery } from "@/redux/api/productApi";
 import ProductCard from "@/shared/modules/ProductCard";
@@ -13,7 +10,7 @@ import { useEffect } from "react";
 
 const ProductDetails = () => {
   const router = useRouter();
-  const { data, isLoading, isError, refetch } = useGetProductByIdQuery((router.query?.id as string) || "");
+  const { data, isLoading, isError } = useGetProductByIdQuery((router.query?.id as string) || "");
 
   useEffect(() => {
     if (!router.query.id || typeof router.query.id === "number") {
@@ -33,7 +30,7 @@ const ProductDetails = () => {
     <>
       {isLoading && <Spinner />}
 
-      {router.query?.id && typeof router.query.id === "number" ? (
+      {/* {router.query?.id && typeof router.query.id === "number" ? (
         <FetchErrorMessage handleRefetch={() => refetch()} isError={isError} />
       ) : (
         <div className="text-center my-20">
@@ -42,7 +39,7 @@ const ProductDetails = () => {
             View Collections
           </LinkButton>
         </div>
-      )}
+      )} */}
 
       {!isError && !isLoading && data?.status === "success" && !Array.isArray(data?.result) && <MainProduct product={data.result} />}
 

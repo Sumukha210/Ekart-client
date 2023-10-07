@@ -2,10 +2,10 @@ import LinkButton from "@/elements/LinkButton";
 import { secondaryFont } from "@/lib/fonts";
 import { RootState } from "@/redux/store";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineClose, AiOutlineMenu, AiOutlineSearch, AiOutlineShopping } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import SearchScreen from "./SearchScreen";
+import SearchScreen from "./search/SearchScreen";
 import { Ul } from "./styles";
 
 interface INavLinks {
@@ -25,6 +25,14 @@ const Navbar = () => {
   const [showSearchScreen, setShowSearchScreen] = useState(false);
 
   const handleShowSearchScreen = () => setShowSearchScreen(true);
+
+  useEffect(() => {
+    if (showSearchScreen) {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "initial";
+    }
+  }, [showSearchScreen]);
 
   return (
     <>
